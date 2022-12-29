@@ -6,3 +6,5 @@
     * ```elixir
          @type animal :: {:cat, number(), integer()} | {:dog, number(), integer()} | {:monkey, number(), integer(), integer()} | ...
        ```
+* [Struct Composition Suggestions](https://elixirforum.com/t/a-sort-of-inheritance-for-struct/942/7)
+* 

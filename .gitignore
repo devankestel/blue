@@ -32,3 +32,6 @@ blue-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# VS Code Extension 
+.elixir_ls/
+

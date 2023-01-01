@@ -1,5 +1,7 @@
 defmodule BlueWeb.Router do
+
   use BlueWeb, :router
+  import Phoenix.LiveView.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -18,6 +20,7 @@ defmodule BlueWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    live "/blue", BlueLive
   end
 
   # Other scopes may use custom stacks.

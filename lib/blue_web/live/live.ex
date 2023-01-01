@@ -21,7 +21,35 @@ defmodule BlueWeb.BlueLive do
     <button phx-click="dec">-</button>
     <button phx-click="inc">+</button>
     </p>
+    <%= raw svg_head %>
+    <%= raw square %>
+    <%= raw svg_foot %>
     </div>
     """
   end
+
+  def svg_head() do
+    """
+    <svg
+    version="1.0"
+    style="background-color: #F8F8F8"
+    id="Layer_1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="200" height="400"
+    viewBox="0 0 200 400"
+    xml:space="preserve">
+    """
+  end
+
+  def svg_foot(), do: "</svg>"
+
+  def square() do
+    """
+    <rect
+      style="fill:#000;"
+      width="#{20}" height="#{20}"/>
+    """
+  end
+
 end

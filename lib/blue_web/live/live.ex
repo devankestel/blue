@@ -1,11 +1,13 @@
 defmodule BlueWeb.BlueLive do
   use BlueWeb, :live_view
-
+  @canvas_width 200
+  @canvas_height 400
+  @grid_size 20
   def mount(_params, _session, socket) do
     {:ok, assign(
       socket,
       val: 0,
-      location: {50, 50},
+      location: {100, 0},
       )}
   end
 
@@ -17,20 +19,32 @@ defmodule BlueWeb.BlueLive do
     {:noreply, update(socket, :val, &(&1 - 1))}
   end
 
-  def handle_event("keypress", %{"key" => key_pressed}, socket) do
+  def handle_event("keypress", params, socket) do
+    IO.inspect(params)
+    IO.inspect(socket)
+    IO.inspect(socket.assigns.location)
+    %{"key" => key_pressed} = params
     {:noreply, assign(
       socket,
-      location: update_location(key_pressed))}
+      location: update_location(key_pressed, socket.assigns.location))}
   end
 
-  def update_location(key_pressed) do
+  def update_location(key_pressed, location) do
     direction = get_direction(key_pressed)
     case direction do
       :up -> {5,5}
-      :down -> {10,10}
+      :down -> move(:down, location)
       :left ->  {15,15}
       :right ->  {20,20}
       _ -> {50, 50}
+    end
+  end
+
+  def move(:down, location) do
+    {x, y} = location
+    cond do
+      y <= 350 -> {x, y + @grid_size}
+      true -> {x, y}
     end
   end
 

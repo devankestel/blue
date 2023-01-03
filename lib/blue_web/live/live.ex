@@ -32,18 +32,42 @@ defmodule BlueWeb.BlueLive do
   def update_location(key_pressed, location) do
     direction = get_direction(key_pressed)
     case direction do
-      :up -> {5,5}
+      :up -> move(:up, location)
       :down -> move(:down, location)
-      :left ->  {15,15}
-      :right ->  {20,20}
-      _ -> {50, 50}
+      :left -> move(:left, location)
+      :right ->  move(:right, location)
+      _ -> location
     end
   end
 
   def move(:down, location) do
     {x, y} = location
     cond do
-      y <= 350 -> {x, y + @grid_size}
+      y <= (@canvas_height - 2*@grid_size) -> {x, y + @grid_size}
+      true -> {x, y}
+    end
+  end
+
+  def move(:up, location) do
+    {x, y} = location
+    cond do
+      y >= @grid_size -> {x, y - @grid_size}
+      true -> {x, y}
+    end
+  end
+
+  def move(:right, location) do
+    {x, y} = location
+    cond do
+      x <= (@canvas_width - 2*@grid_size) -> {x + @grid_size, y}
+      true -> {x, y}
+    end
+  end
+
+  def move(:left, location) do
+    {x, y} = location
+    cond do
+      x >= @grid_size -> {x - @grid_size, y}
       true -> {x, y}
     end
   end

@@ -2,7 +2,11 @@ defmodule BlueWeb.BlueLive do
   use BlueWeb, :live_view
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :val, 0)}
+    {:ok, assign(
+      socket,
+      val: 0,
+      location: {50, 50},
+      )}
   end
 
   def handle_event("inc", _unsigned_params, socket) do
@@ -13,6 +17,33 @@ defmodule BlueWeb.BlueLive do
     {:noreply, update(socket, :val, &(&1 - 1))}
   end
 
+  def handle_event("keypress", %{"key" => key_pressed}, socket) do
+    {:noreply, assign(
+      socket,
+      location: update_location(key_pressed))}
+  end
+
+  def update_location(key_pressed) do
+    direction = get_direction(key_pressed)
+    case direction do
+      :up -> {5,5}
+      :down -> {10,10}
+      :left ->  {15,15}
+      :right ->  {20,20}
+      _ -> {50, 50}
+    end
+  end
+
+  def get_direction(key_pressed) do
+    case key_pressed do
+      "ArrowLeft" -> :left
+      "ArrowRight" -> :right
+      "ArrowUp" -> :up
+      "ArrowDown" -> :down
+      _ -> :nomatch
+    end
+  end
+
   def render(assigns) do
     ~H"""
     <div>
@@ -21,9 +52,11 @@ defmodule BlueWeb.BlueLive do
     <button phx-click="dec">-</button>
     <button phx-click="inc">+</button>
     </p>
+    <div phx-window-keydown="keypress">
     <%= raw svg_head %>
-    <%= raw square %>
+    <%= raw square(@location) %>
     <%= raw svg_foot %>
+    </div>
     </div>
     """
   end
@@ -44,9 +77,11 @@ defmodule BlueWeb.BlueLive do
 
   def svg_foot(), do: "</svg>"
 
-  def square() do
+  def square(location) do
+    {x, y} = location
     """
     <rect
+      x="#{x}" y="#{y}"
       style="fill:#000;"
       width="#{20}" height="#{20}"/>
     """

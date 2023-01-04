@@ -9,3 +9,5 @@
 * [Struct Composition Suggestions](https://elixirforum.com/t/a-sort-of-inheritance-for-struct/942/7)
 * [Current most useful Tetris App](https://github.com/groxio-learning/tetris-ui/blob/86ef81c59900040885483bed844d8f5a8f453821/lib/tetrisui_web/live/tetris_live.ex)
 * [Current Tetris Vid](https://www.youtube.com/watch?v=OJ6Q6YTSKqs&list=PLKBMoE8mCkXj9KTMNWYgvTFRyahT6PF2q&index=13)
+* [Module attributes and imports](https://stackoverflow.com/questions/37713244/access-module-attributes-outside-the-module)
+* [Exploring socket assigns](https://elixircasts.io/exploring-phoenix-assigns)

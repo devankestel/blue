@@ -1,8 +1,19 @@
 defmodule BlueWeb.BlueLive do
   use BlueWeb, :live_view
+
+  alias Blue.Sprite
+
   @canvas_width 200
   @canvas_height 400
   @grid_size 20
+
+
+  def grid_size, do: @grid_size
+
+  def canvas_width, do: @canvas_width
+
+  def canvas_height, do: @canvas_height
+
   def mount(_params, _session, socket) do
     {:ok, assign(
       socket,
@@ -40,6 +51,8 @@ defmodule BlueWeb.BlueLive do
     end
   end
 
+
+  @spec move(Sprite.direction(), Sprite.position()) :: Sprite.position()
   def move(:down, location) do
     {x, y} = location
     cond do
@@ -121,7 +134,7 @@ defmodule BlueWeb.BlueLive do
     <rect
       x="#{x}" y="#{y}"
       style="fill:#000;"
-      width="#{20}" height="#{20}"/>
+      width="#{@grid_size}" height="#{@grid_size}"/>
     """
   end
 

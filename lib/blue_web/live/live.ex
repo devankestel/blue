@@ -85,6 +85,17 @@ defmodule BlueWeb.BlueLive do
     end
   end
 
+  @spec is_at_edge?(Sprite.direction(), Sprite.position()) :: boolean()
+  def is_at_edge?(direction, location) do
+    {x, y} = location
+
+    case direction do
+      :right -> (x >= (@canvas_width - 2*@grid_size))
+      :left -> x <= @grid_size
+      _ -> false
+    end
+  end
+
   def get_direction(key_pressed) do
     case key_pressed do
       "ArrowLeft" -> :left

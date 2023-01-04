@@ -48,4 +48,25 @@ defmodule BlueWeb.BlueLiveTest do
         assert final_location == start_location
       end
   end
+
+  describe "is_at_edge?/1" do
+    test "returns true when is at right edge" do
+      x = BlueLive.canvas_width - BlueLive.grid_size
+      y = 20
+      start_location = {x, y}
+
+      at_edge = BlueLive.is_at_edge?(:right, start_location)
+
+      assert at_edge
+    end
+    test "returns true when is at left edge" do
+      x = 0
+      y = 20
+      start_location = {x, y}
+
+      at_edge = BlueLive.is_at_edge?(:left, start_location)
+
+      assert at_edge
+    end
+  end
 end

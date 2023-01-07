@@ -116,7 +116,7 @@ defmodule BlueWeb.BlueLive do
     </p>
     <div phx-window-keydown="keypress">
     <%= raw svg_head %>
-    <%= raw square(@location) %>
+    <%= raw square(@location, "#000") %>
     <%= raw svg_foot %>
     </div>
     </div>
@@ -139,14 +139,19 @@ defmodule BlueWeb.BlueLive do
 
   def svg_foot(), do: "</svg>"
 
-  def square(location) do
+  def square(location, color) do
     {x, y} = location
     """
     <rect
       x="#{x}" y="#{y}"
-      style="fill:#000;"
+      style="fill:#{color};"
       width="#{@grid_size}" height="#{@grid_size}"/>
     """
+  end
+
+  def get_location(position) do
+    {x, y} = position
+    {(x-1)*@grid_size, (y-1)*@grid_size}
   end
 
 end

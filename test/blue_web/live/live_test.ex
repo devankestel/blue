@@ -69,4 +69,39 @@ defmodule BlueWeb.BlueLiveTest do
       assert at_edge
     end
   end
+
+  describe "get_location/1" do
+    test "it gets a location from a grid position" do
+      position = {5, 5}
+
+      expected_location = {(5-1)*BlueLive.grid_size, (5-1)*BlueLive.grid_size}
+
+      location = BlueLive.get_location(position)
+
+      assert location == expected_location
+    end
+  end
+
+  describe "square/2" do
+    test "it creates a black square" do
+      location = {20, 20}
+      color = "#000"
+
+      expected_square =
+      """
+      <rect
+        x="20" y="20"
+        style="fill:#000;"
+        width="#{BlueLive.grid_size}" height="#{BlueLive.grid_size}"/>
+      """
+
+      result_square = BlueLive.square(location, color)
+
+      assert result_square == expected_square
+    end
+  end
+
+  describe "squares" do
+
+  end
 end

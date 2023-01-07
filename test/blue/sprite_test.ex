@@ -6,31 +6,43 @@ defmodule Blue.SpriteTest do
         test "creates a new sprite" do
             sprite = Sprite.new()
 
-            assert sprite.position == {0, 0}
+            assert sprite.grid_coordinate == {0, 0}
             assert sprite.color == :black
         end
     end
 
-    describe "update_position/2" do
+    describe "update_grid_coordinate/2" do
         test "up" do
-            position = {1, 1}
-            new_position = Sprite.update_position(position, :up)
-            assert new_position == {1, 2}
+            initial_grid_coordinate = {1, 1}
+            expected_grid_coordinate = {1, 2}
+
+            updated_grid_coordinate = Sprite.update_grid_coordinate(initial_grid_coordinate, :up)
+
+            assert updated_grid_coordinate == expected_grid_coordinate
         end
         test "down" do
-            position = {1, 1}
-            new_position = Sprite.update_position(position, :down)
-            assert new_position == {1, 0} 
+            initial_grid_coordinate = {1, 1}
+            expected_grid_coordinate = {1, 0}
+
+            updated_grid_coordinate = Sprite.update_grid_coordinate(initial_grid_coordinate, :down)
+
+            assert updated_grid_coordinate == expected_grid_coordinate
         end
         test "left" do
-            position = {1, 1}
-            new_position = Sprite.update_position(position, :left)
-            assert new_position == {0, 1} 
+            initial_grid_coordinate = {1, 1}
+            expected_grid_coordinate = {0, 1}
+
+            updated_grid_coordinate = Sprite.update_grid_coordinate(initial_grid_coordinate, :left)
+
+            assert updated_grid_coordinate == expected_grid_coordinate
         end
         test "right" do
-            position = {1, 1}
-            new_position = Sprite.update_position(position, :right)
-            assert new_position == {2, 1}
+            initial_grid_coordinate = {1, 1}
+            expected_grid_coordinate = {2, 1}
+
+            updated_grid_coordinate = Sprite.update_grid_coordinate(initial_grid_coordinate, :right)
+
+            assert updated_grid_coordinate == expected_grid_coordinate
         end
     end
 
@@ -40,7 +52,7 @@ defmodule Blue.SpriteTest do
 
             new_sprite = Sprite.move(sprite, :up)
 
-            assert new_sprite.position == {0, 1}
+            assert new_sprite.grid_coordinate == {0, 1}
             assert new_sprite.color == :black
         end
     end

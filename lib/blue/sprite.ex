@@ -1,6 +1,6 @@
 defmodule Blue.Color do
     alias Blue.Color
-    
+
     defstruct [
         black: {0, 0, 0, 1},
         red: {255, 0, 0, 1},
@@ -19,38 +19,38 @@ defmodule Blue.Sprite do
 
     @colors Color.new()
 
-    @type position :: {integer, integer} 
+    @type grid_coordinate :: {integer, integer}
     @type direction :: :up | :down | :left | :right
     @type color :: :black | :red
-    @type t :: %Sprite{position: position, color: color}
+    @type t :: %Sprite{grid_coordinate: grid_coordinate(), color: color}
 
     defstruct [
-        position: {0, 0},
+        grid_coordinate: {0, 0},
         color: :black
     ]
-    
+
     @spec new() :: Sprite.t()
     def new(), do: __struct__()
 
-    @spec move(Sprite.t(), direction) :: Sprite.t() 
+    @spec move(Sprite.t(), direction) :: Sprite.t()
     def move(sprite, direction) do
-        %{sprite | position: update_position(sprite.position, direction)}
+        %{sprite | grid_coordinate: update_grid_coordinate(sprite.grid_coordinate, direction)}
     end
 
-    @spec update_position(position, direction) :: position
-    def update_position(position, direction) do
-        {x, y} = position
+    @spec update_grid_coordinate(grid_coordinate(), grid_coordinate()) :: grid_coordinate()
+    def update_grid_coordinate(grid_coordinate, direction) do
+        {x, y} = grid_coordinate
         case direction do
             :up ->
                 {x, y+1}
-            :down -> 
+            :down ->
                 {x, y-1}
-            :left -> 
+            :left ->
                 {x-1, y}
-            :right -> 
+            :right ->
                 {x+1, y}
-            _ -> 
-                {x, y} 
+            _ ->
+                {x, y}
         end
     end
 
@@ -61,4 +61,3 @@ defmodule Blue.Sprite do
     end
 
 end
-

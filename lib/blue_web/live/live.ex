@@ -19,6 +19,7 @@ defmodule BlueWeb.BlueLive do
       socket,
       val: 0,
       location: {100, 0},
+      sprite: Sprite.new()
       )}
   end
 

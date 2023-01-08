@@ -25,7 +25,7 @@ defmodule Blue.Sprite do
     @type t :: %Sprite{grid_coordinate: grid_coordinate(), color: color}
 
     defstruct [
-        grid_coordinate: {0, 0},
+        grid_coordinate: {1, 1},
         color: :black
     ]
 
@@ -42,9 +42,9 @@ defmodule Blue.Sprite do
         {x, y} = grid_coordinate
         case direction do
             :up ->
-                {x, y+1}
-            :down ->
                 {x, y-1}
+            :down ->
+                {x, y+1}
             :left ->
                 {x-1, y}
             :right ->

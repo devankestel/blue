@@ -104,4 +104,20 @@ defmodule BlueWeb.BlueLiveTest do
   describe "squares" do
 
   end
+
+  describe "mount/3" do
+
+    test "assigns params to socket" do
+      socket = %Phoenix.LiveView.Socket{}
+      params = %{}
+      session = nil
+
+      {:ok, updated_socket} = BlueLive.mount(params, session, socket)
+
+      assert updated_socket.assigns.sprite.grid_coordinate == {1, 1}
+      assert updated_socket.assigns.sprite.color == :black
+
+    end
+  end
+
 end

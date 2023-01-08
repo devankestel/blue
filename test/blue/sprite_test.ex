@@ -6,15 +6,15 @@ defmodule Blue.SpriteTest do
         test "creates a new sprite" do
             sprite = Sprite.new()
 
-            assert sprite.grid_coordinate == {0, 0}
+            assert sprite.grid_coordinate == {1, 1}
             assert sprite.color == :black
         end
     end
 
     describe "update_grid_coordinate/2" do
         test "up" do
-            initial_grid_coordinate = {1, 1}
-            expected_grid_coordinate = {1, 2}
+            initial_grid_coordinate = {2, 2}
+            expected_grid_coordinate = {2, 1}
 
             updated_grid_coordinate = Sprite.update_grid_coordinate(initial_grid_coordinate, :up)
 
@@ -22,7 +22,7 @@ defmodule Blue.SpriteTest do
         end
         test "down" do
             initial_grid_coordinate = {1, 1}
-            expected_grid_coordinate = {1, 0}
+            expected_grid_coordinate = {1, 2}
 
             updated_grid_coordinate = Sprite.update_grid_coordinate(initial_grid_coordinate, :down)
 
@@ -49,11 +49,13 @@ defmodule Blue.SpriteTest do
     describe "move/2" do
         test "moves up" do
             sprite = Sprite.new()
+            sprite = %{sprite | grid_coordinate: {2, 2}}
+            expected_grid_coordinate = {2, 1}
 
-            new_sprite = Sprite.move(sprite, :up)
+            updated_sprite = Sprite.move(sprite, :up)
 
-            assert new_sprite.grid_coordinate == {0, 1}
-            assert new_sprite.color == :black
+            assert updated_sprite.grid_coordinate == expected_grid_coordinate
+            assert updated_sprite.color == :black
         end
     end
 

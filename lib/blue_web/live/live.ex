@@ -1,7 +1,7 @@
 defmodule BlueWeb.BlueLive do
   use BlueWeb, :live_view
 
-  alias Blue.Sprite
+  alias Blue.{Canvas, Sprite, Svg}
 
   @canvas_width 200
   @canvas_height 400
@@ -128,29 +128,13 @@ defmodule BlueWeb.BlueLive do
     <button phx-click="inc">+</button>
     </p>
     <div phx-window-keydown="keypress">
-    <%= raw svg_head %>
+    <%= raw Svg.header(Canvas.new()) %>
     <%= raw square(@location, "#000") %>
-    <%= raw svg_foot %>
+    <%= raw Svg.footer %>
     </div>
     </div>
     """
   end
-
-  def svg_head() do
-    """
-    <svg
-    version="1.0"
-    style="background-color: #F8F8F8"
-    id="Layer_1"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    width="200" height="400"
-    viewBox="0 0 200 400"
-    xml:space="preserve">
-    """
-  end
-
-  def svg_foot(), do: "</svg>"
 
   def square(location, color) do
     {x, y} = location

@@ -40,4 +40,35 @@ defmodule Blue.SvgTest do
     end
   end
 
+  describe "header/1" do
+    test "creates svg header based on canvas params" do
+      canvas = Canvas.new()
+      expected_header =
+        """
+        <svg
+        version="1.0"
+        style="background-color: #F8F8F8"
+        id="Layer_1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        width="200" height="400"
+        viewBox="0 0 200 400"
+        xml:space="preserve">
+        """
+
+      header = Svg.header(canvas)
+
+      assert header == expected_header
+    end
+  end
+
+  describe "footer/0" do
+    test "creates svg header based on canvas params" do
+      expected_footer = "</svg>"
+
+      footer = Svg.footer()
+
+      assert footer == expected_footer
+    end
+  end
 end

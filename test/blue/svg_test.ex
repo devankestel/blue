@@ -8,11 +8,13 @@ defmodule Blue.SvgTest do
     test "it creates a black square" do
       canvas = Canvas.new()
       sprite = Sprite.new()
+      sprite = %{sprite | grid_coordinate: {5, 5}}
+      canvas = %{canvas | sprites: [sprite]}
 
       expected_square =
       """
       <rect
-        x="0" y="0"
+        x="80" y="80"
         style="fill:#rgba(0,0,0,1);"
         width="#{canvas.grid_size}" height="#{canvas.grid_size}"/>
       """
@@ -26,9 +28,11 @@ defmodule Blue.SvgTest do
   describe "get_coordinate/1" do
     test "it gets an svg coordinate from a grid_coordinate" do
       canvas = Canvas.new()
-      sprite = Enum.at(canvas.sprites, 0)
+      sprite = Sprite.new()
+      sprite = %{sprite | grid_coordinate: {5, 5}}
+      canvas = %{canvas | sprites: [sprite]}
 
-      expected_svg_coordinate = {(1-1)*canvas.grid_size, (1-1)*canvas.grid_size}
+      expected_svg_coordinate = {(5-1)*canvas.grid_size, (5-1)*canvas.grid_size}
 
       coordinate = Svg.get_coordinate(canvas, sprite)
 

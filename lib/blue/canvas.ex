@@ -9,7 +9,7 @@ defmodule Blue.Canvas do
     grid_size: 20,
     width: 200,
     height: 400,
-    sprites: [Sprite.new(), Sprite.new()]
+    sprites: []
 ]
 
 @spec new() :: Canvas.t()

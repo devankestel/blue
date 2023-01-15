@@ -11,3 +11,7 @@
 * [Current Tetris Vid](https://www.youtube.com/watch?v=OJ6Q6YTSKqs&list=PLKBMoE8mCkXj9KTMNWYgvTFRyahT6PF2q&index=13)
 * [Module attributes and imports](https://stackoverflow.com/questions/37713244/access-module-attributes-outside-the-module)
 * [Exploring socket assigns](https://elixircasts.io/exploring-phoenix-assigns)
+
+# SVG
+
+* [SVG colors](https://docs.aspose.com/svg/net/drawing-basics/svg-color/)

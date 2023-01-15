@@ -6,10 +6,13 @@ defmodule Blue.CanvasTest do
   describe "new/0" do
     test "creates a new canvas" do
       canvas = Canvas.new()
+      sprite1 = Sprite.new()
+      sprite2 = Sprite.new()
 
       assert canvas.grid_size == 20
       assert canvas.width == 200
       assert canvas.height == 400
+      assert canvas.sprites == [sprite1, sprite2]
     end
   end
 

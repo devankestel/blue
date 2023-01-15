@@ -1,4 +1,5 @@
 defmodule Blue.Canvas do
+  alias Blue.Sprite
 
   @type grid_size :: integer
   @type width :: integer
@@ -8,6 +9,7 @@ defmodule Blue.Canvas do
     grid_size: 20,
     width: 200,
     height: 400,
+    sprites: [Sprite.new(), Sprite.new()]
 ]
 
 @spec new() :: Canvas.t()

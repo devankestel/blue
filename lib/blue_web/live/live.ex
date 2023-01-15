@@ -97,6 +97,18 @@ defmodule BlueWeb.BlueLive do
     end
   end
 
+  def is_at_grid_edge?(direction, grid_coordinate) do
+    {col, row} = grid_coordinate
+
+    case direction do
+      :left -> col <= 1
+      :right -> col >= get_num_cols()
+      :up -> row <= 1
+      :down -> row >= get_num_rows()
+      _ -> false
+    end
+  end
+
   def get_direction(key_pressed) do
     case key_pressed do
       "ArrowLeft" -> :left
@@ -150,9 +162,20 @@ defmodule BlueWeb.BlueLive do
     """
   end
 
-  def get_location(position) do
-    {x, y} = position
+  @spec get_svg_coordinate(Sprite.grid_coordinate()) :: {number, number}
+  def get_svg_coordinate(grid_coordinate) do
+    {x, y} = grid_coordinate
     {(x-1)*@grid_size, (y-1)*@grid_size}
+  end
+
+  @spec get_num_cols :: float
+  def get_num_cols() do
+    @canvas_width/@grid_size
+  end
+
+  @spec get_num_rows :: float
+  def get_num_rows() do
+    @canvas_height/@grid_size
   end
 
 end

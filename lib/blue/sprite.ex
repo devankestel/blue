@@ -39,18 +39,18 @@ defmodule Blue.Sprite do
 
     @spec update_grid_coordinate(grid_coordinate(), grid_coordinate()) :: grid_coordinate()
     def update_grid_coordinate(grid_coordinate, direction) do
-        {x, y} = grid_coordinate
+        {col, row} = grid_coordinate
         case direction do
             :up ->
-                {x, y-1}
+                {col, row-1}
             :down ->
-                {x, y+1}
+                {col, row+1}
             :left ->
-                {x-1, y}
+                {col-1, row}
             :right ->
-                {x+1, y}
+                {col+1, row}
             _ ->
-                {x, y}
+                {col, row}
         end
     end
 

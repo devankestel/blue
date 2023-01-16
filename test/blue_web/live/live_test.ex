@@ -1,7 +1,7 @@
 defmodule BlueWeb.BlueLiveTest do
   use ExUnit.Case
   alias BlueWeb.BlueLive
-  alias Blue.Sprite
+  alias Blue.{Canvas, Sprite}
 
   describe "move/2" do
       test "moves one grid square right when not at edge of screen" do
@@ -118,6 +118,9 @@ defmodule BlueWeb.BlueLiveTest do
 
       assert updated_socket.assigns.sprite.grid_coordinate == {1, 1}
       assert updated_socket.assigns.sprite.color == :black
+      assert updated_socket.assigns.canvas.width == 200
+      assert updated_socket.assigns.canvas.height == 400
+      assert updated_socket.assigns.canvas.grid_size == 20
 
     end
   end
@@ -184,6 +187,74 @@ defmodule BlueWeb.BlueLiveTest do
       at_edge? = BlueLive.is_at_grid_edge?(:down, sprite.grid_coordinate)
 
       assert at_edge? == false
+    end
+  end
+
+  describe "update_canvas/2" do
+    test "move protagonist up" do
+      canvas = Canvas.new()
+      sprite = Sprite.new()
+      sprite = %{sprite | grid_coordinate: {5, 5}}
+      canvas = %{canvas | sprites: [sprite]}
+      key_pressed = "ArrowUp"
+
+      {col, row} = sprite.grid_coordinate
+      expected_grid_coordinate = {col, row - 1}
+
+      updated_canvas = BlueLive.update_canvas(key_pressed, canvas)
+
+      updated_sprite = Enum.at(updated_canvas.sprites, 0)
+
+      assert updated_sprite.grid_coordinate == expected_grid_coordinate
+
+    end
+    test "move protagonist down" do
+      canvas = Canvas.new()
+      sprite = Sprite.new()
+      sprite = %{sprite | grid_coordinate: {5, 5}}
+      canvas = %{canvas | sprites: [sprite]}
+      key_pressed = "ArrowDown"
+
+      {col, row} = sprite.grid_coordinate
+      expected_grid_coordinate = {col, row + 1}
+
+      updated_canvas = BlueLive.update_canvas(key_pressed, canvas)
+
+      updated_sprite = Enum.at(updated_canvas.sprites, 0)
+
+      assert updated_sprite.grid_coordinate == expected_grid_coordinate
+    end
+    test "move protagonist right" do
+      canvas = Canvas.new()
+      sprite = Sprite.new()
+      sprite = %{sprite | grid_coordinate: {5, 5}}
+      canvas = %{canvas | sprites: [sprite]}
+      key_pressed = "ArrowRight"
+
+      {col, row} = sprite.grid_coordinate
+      expected_grid_coordinate = {col + 1, row}
+
+      updated_canvas = BlueLive.update_canvas(key_pressed, canvas)
+
+      updated_sprite = Enum.at(updated_canvas.sprites, 0)
+
+      assert updated_sprite.grid_coordinate == expected_grid_coordinate
+    end
+    test "move_protagonist left" do
+      canvas = Canvas.new()
+      sprite = Sprite.new()
+      sprite = %{sprite | grid_coordinate: {5, 5}}
+      canvas = %{canvas | sprites: [sprite]}
+      key_pressed = "ArrowLeft"
+
+      {col, row} = sprite.grid_coordinate
+      expected_grid_coordinate = {col - 1, row}
+
+      updated_canvas = BlueLive.update_canvas(key_pressed, canvas)
+
+      updated_sprite = Enum.at(updated_canvas.sprites, 0)
+
+      assert updated_sprite.grid_coordinate == expected_grid_coordinate
     end
   end
 

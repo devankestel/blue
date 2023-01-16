@@ -1,5 +1,5 @@
 defmodule Blue.Canvas do
-  alias Blue.Sprite
+  alias Blue.{Sprite, Svg}
 
   @type grid_size :: integer
   @type width :: integer
@@ -33,5 +33,21 @@ def is_at_grid_edge?(canvas, direction, grid_coordinate) do
       :down -> row >= get_num_rows(canvas)
       _ -> false
     end
+end
+
+def render(canvas) do
+  header = Svg.header(canvas)
+  footer = Svg.footer()
+
+  sprite_svgs = canvas.sprites |>
+    Enum.map(
+      fn sprite ->
+        Svg.square(canvas, sprite)
+      end
+    )
+
+  middle = Enum.join(sprite_svgs)
+
+  Enum.join([header, middle, footer])
 end
 end

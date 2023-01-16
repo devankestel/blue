@@ -15,11 +15,13 @@ defmodule BlueWeb.BlueLive do
   def canvas_height, do: @canvas_height
 
   def mount(_params, _session, socket) do
+    canvas = Canvas.new()
     {:ok, assign(
       socket,
       val: 0,
       location: {100, 0},
-      sprite: Sprite.new()
+      sprite: Sprite.new(),
+      canvas: canvas
       )}
   end
 
@@ -36,9 +38,13 @@ defmodule BlueWeb.BlueLive do
     IO.inspect(socket)
     IO.inspect(socket.assigns.location)
     %{"key" => key_pressed} = params
-    {:noreply, assign(
+    {:noreply,
+    assign(
       socket,
-      location: update_location(key_pressed, socket.assigns.location))}
+      location: update_location(key_pressed, socket.assigns.location),
+      canvas: update_canvas(key_pressed, socket.assigns.canvas)
+      )
+    }
   end
 
   def update_location(key_pressed, location) do
@@ -51,6 +57,31 @@ defmodule BlueWeb.BlueLive do
       _ -> location
     end
   end
+
+  def update_canvas(key_pressed, canvas) do
+    direction = get_direction(key_pressed)
+    case direction do
+      :up -> move_protagonist(:up, canvas)
+      :down -> move_protagonist(:down, canvas)
+      :left -> move_protagonist(:left, canvas)
+      :right -> move_protagonist(:right, canvas)
+      _ -> canvas
+    end
+  end
+
+  def move_protagonist(direction, canvas) do
+    sprite = Enum.at(canvas.sprites, 0)
+
+    cond do
+      Canvas.is_at_grid_edge?(canvas, direction, sprite.grid_coordinate) ->
+        canvas
+      true ->
+        sprite = sprite |> Sprite.move(direction)
+        %{canvas | sprites: [sprite]}
+    end
+  end
+
+
 
 
   @spec move(Sprite.direction(), Sprite.position()) :: Sprite.position()
@@ -130,6 +161,7 @@ defmodule BlueWeb.BlueLive do
     <div phx-window-keydown="keypress">
     <%= raw Svg.header(Canvas.new()) %>
     <%= raw square(@location, "#000") %>
+    <%= raw Canvas.render(@canvas) %>
     <%= raw Svg.footer %>
     </div>
     </div>

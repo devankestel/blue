@@ -6,13 +6,11 @@ defmodule Blue.CanvasTest do
   describe "new/0" do
     test "creates a new canvas" do
       canvas = Canvas.new()
-      sprite1 = Sprite.new()
-      sprite2 = Sprite.new()
 
       assert canvas.grid_size == 20
       assert canvas.width == 200
       assert canvas.height == 400
-      assert canvas.sprites == [sprite1, sprite2]
+      assert canvas.sprites == []
     end
   end
 
@@ -92,4 +90,40 @@ defmodule Blue.CanvasTest do
     end
   end
 
+  describe "render/2" do
+    test "it renders a full svg, header, footer, and sprites" do
+      canvas = Canvas.new()
+      sprite1 = Sprite.new()
+      sprite2 = Sprite.new()
+      sprite2 = %{sprite2 | grid_coordinate: {5, 5}}
+      sprite2 = %{sprite2 | color: :red}
+      canvas = %{canvas | sprites: [sprite1, sprite2]}
+
+      expected_svg =
+        """
+        <svg
+        version="1.0"
+        style="background-color: #F8F8F8"
+        id="Layer_1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        width="200" height="400"
+        viewBox="0 0 200 400"
+        xml:space="preserve">
+        <rect
+        x="0" y="0"
+        style="fill:#rgba(0,0,0,1);"
+        width="20" height="20"/>
+        <rect
+        x="80" y="80"
+        style="fill:#rgba(255,0,0,1);"
+        width="20" height="20"/>
+        </svg>\
+        """
+
+        svg = Canvas.render(canvas)
+
+        assert svg == expected_svg
+    end
+  end
 end

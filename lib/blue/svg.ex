@@ -19,11 +19,12 @@ defmodule Blue.Svg do
 
   def square(canvas, sprite) do
     color_vector = Sprite.get_color_vector(sprite) |> Tuple.to_list() |> Enum.join(",")
+    IO.inspect(color_vector)
     {x, y} = get_coordinate(canvas, sprite)
     """
     <rect
     x="#{x}" y="#{y}"
-    style="fill:#rgba(#{color_vector});"
+    style="fill:rgba(#{color_vector});"
     width="#{canvas.grid_size}" height="#{canvas.grid_size}"/>
     """
   end

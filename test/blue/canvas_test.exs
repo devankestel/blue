@@ -34,7 +34,7 @@ defmodule Blue.CanvasTest do
     end
   end
 
-  describe "is_at_grid_edge/2" do
+  describe "is_at_grid_edge?/2" do
     test "returns true at left edge" do
       sprite = Sprite.new()
       canvas = Canvas.new()
@@ -87,6 +87,74 @@ defmodule Blue.CanvasTest do
       at_edge? = Canvas.is_at_grid_edge?(canvas, :down, sprite.grid_coordinate)
 
       assert at_edge? == false
+    end
+  end
+
+  describe "can_collect_item?/2" do
+    test "returns true with item to the left" do
+      protagonist = Sprite.new()
+      protagonist = %{protagonist | grid_coordinate: {2, 1}}
+      item = Sprite.new()
+      item = %{item | grid_coordinate: {1, 1}}
+      canvas = Canvas.new()
+      canvas = %{canvas | sprites: [protagonist, item]}
+
+      collect_item? = Canvas.can_collect_item?(:left, protagonist.grid_coordinate, item.grid_coordinate)
+
+      assert collect_item? == true
+
+    end
+
+    test "returns true with item to the right" do
+      protagonist = Sprite.new()
+      protagonist = %{protagonist | grid_coordinate: {2, 1}}
+      item = Sprite.new()
+      item = %{item | grid_coordinate: {3, 1}}
+      canvas = Canvas.new()
+      canvas = %{canvas | sprites: [protagonist, item]}
+
+      collect_item? = Canvas.can_collect_item?(:right, protagonist.grid_coordinate, item.grid_coordinate)
+
+      assert collect_item? == true
+    end
+
+    test "returns true with item above" do
+      protagonist = Sprite.new()
+      protagonist = %{protagonist | grid_coordinate: {1, 2}}
+      item = Sprite.new()
+      item = %{item | grid_coordinate: {1, 1}}
+      canvas = Canvas.new()
+      canvas = %{canvas | sprites: [protagonist, item]}
+
+      collect_item? = Canvas.can_collect_item?(:up, protagonist.grid_coordinate, item.grid_coordinate)
+
+      assert collect_item? == true
+    end
+
+    test "returns true with item below" do
+      protagonist = Sprite.new()
+      protagonist = %{protagonist | grid_coordinate: {1, 1}}
+      item = Sprite.new()
+      item = %{item | grid_coordinate: {1, 2}}
+      canvas = Canvas.new()
+      canvas = %{canvas | sprites: [protagonist, item]}
+
+      collect_item? = Canvas.can_collect_item?(:down, protagonist.grid_coordinate, item.grid_coordinate)
+
+      assert collect_item? == true
+    end
+
+    test "returns false when not next to item" do
+      protagonist = Sprite.new()
+      protagonist = %{protagonist | grid_coordinate: {1, 1}}
+      item = Sprite.new()
+      item = %{item | grid_coordinate: {5, 5}}
+      canvas = Canvas.new()
+      canvas = %{canvas | sprites: [protagonist, item]}
+
+      collect_item? = Canvas.can_collect_item?(:down, protagonist.grid_coordinate, item.grid_coordinate)
+
+      assert collect_item? == false
     end
   end
 

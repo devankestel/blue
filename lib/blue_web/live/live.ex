@@ -67,6 +67,9 @@ defmodule BlueWeb.BlueLive do
     cond do
       Canvas.is_at_grid_edge?(canvas, direction, protagonist_sprite.grid_coordinate) ->
         canvas
+      Canvas.can_collect_item?(direction, protagonist_sprite.grid_coordinate, item_sprite.grid_coordinate) ->
+        protagonist_sprite = protagonist_sprite |> Sprite.move(direction)
+        %{canvas | sprites: [protagonist_sprite]}
       true ->
         protagonist_sprite = protagonist_sprite |> Sprite.move(direction)
         %{canvas | sprites: [protagonist_sprite, item_sprite]}

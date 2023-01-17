@@ -14,9 +14,9 @@ defmodule Blue.SvgTest do
       expected_square =
       """
       <rect
-        x="80" y="80"
-        style="fill:#rgba(0,0,0,1);"
-        width="#{canvas.grid_size}" height="#{canvas.grid_size}"/>
+      x="80" y="80"
+      style="fill:rgba(0,0,0,1);"
+      width="#{canvas.grid_size}" height="#{canvas.grid_size}"/>
       """
 
       result_square = Svg.square(canvas, sprite)

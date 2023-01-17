@@ -112,11 +112,11 @@ defmodule Blue.CanvasTest do
         xml:space="preserve">
         <rect
         x="0" y="0"
-        style="fill:#rgba(0,0,0,1);"
+        style="fill:rgba(0,0,0,1);"
         width="20" height="20"/>
         <rect
         x="80" y="80"
-        style="fill:#rgba(255,0,0,1);"
+        style="fill:rgba(255,0,0,1);"
         width="20" height="20"/>
         </svg>\
         """

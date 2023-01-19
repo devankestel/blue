@@ -76,11 +76,12 @@ defmodule BlueWeb.BlueLive do
       Canvas.is_at_grid_edge?(canvas, direction, protagonist_sprite.grid_coordinate) ->
         canvas
       Canvas.can_collect_item?(direction, protagonist_sprite.grid_coordinate, item_sprite.grid_coordinate) ->
-        protagonist_sprite = protagonist_sprite |> Sprite.move(direction)
-        %{canvas | sprites: [protagonist_sprite]}
+        canvas
+         |> Canvas.remove_sprite(item_sprite)
+         |> Canvas.move_sprite(protagonist_sprite, direction)
       true ->
-        protagonist_sprite = protagonist_sprite |> Sprite.move(direction)
-        %{canvas | sprites: [protagonist_sprite, item_sprite]}
+        canvas
+          |> Canvas.move_sprite(protagonist_sprite, direction)
     end
   end
 
@@ -90,8 +91,8 @@ defmodule BlueWeb.BlueLive do
       Canvas.is_at_grid_edge?(canvas, direction, protagonist_sprite.grid_coordinate) ->
         canvas
       true ->
-        protagonist_sprite = protagonist_sprite |> Sprite.move(direction)
-        %{canvas | sprites: [protagonist_sprite]}
+        canvas
+          |> Canvas.move_sprite(protagonist_sprite, direction)
     end
   end
 

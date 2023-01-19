@@ -181,6 +181,71 @@ defmodule Blue.CanvasTest do
 
       assert item? == false
     end
+    test "it returns true when more than one item is present" do
+      canvas = Canvas.new()
+      sprite1 = Sprite.new()
+      sprite2 = Sprite.new()
+      sprite2 = %{sprite2 | grid_coordinate: {5, 5}}
+      sprite2 = %{sprite2 | color: :red}
+      sprite3 = Sprite.new()
+      sprite3 = %{sprite3 | grid_coordinate: {6, 7}}
+      sprite3 = %{sprite3 | color: :red}
+
+      canvas = %{canvas | sprites: [sprite1, sprite2, sprite3]}
+
+      item? = Canvas.has_item?(canvas)
+
+      assert item? == true
+    end
+  end
+
+  describe "remove_sprite/2" do
+    test "remove the second sprite" do
+      canvas = Canvas.new()
+      sprite1 = Sprite.new()
+      sprite2 = Sprite.new()
+      sprite2 = %{sprite2 | grid_coordinate: {5, 5}}
+      sprite2 = %{sprite2 | color: :red}
+      sprite3 = Sprite.new()
+      sprite3 = %{sprite3 | grid_coordinate: {6, 7}}
+      sprite3 = %{sprite3 | color: :red}
+
+      canvas = %{canvas | sprites: [sprite1, sprite2, sprite3]}
+
+      updated_canvas = Canvas.remove_sprite(canvas, sprite2)
+
+      assert Enum.count(updated_canvas.sprites) == Enum.count(canvas.sprites) - 1
+      # No sprites left on canvas have coordinate of removed sprite
+      # This assumes that no 2 sprites can occupy the same space on a canvas
+      assert Enum.all?(updated_canvas.sprites, fn s -> s.grid_coordinate != sprite2.grid_coordinate end)
+    end
+  end
+
+  describe "move_sprite/3" do
+    test "move the first sprite" do
+      canvas = Canvas.new()
+      sprite1 = Sprite.new()
+      sprite2 = Sprite.new()
+      sprite2 = %{sprite2 | grid_coordinate: {5, 5}}
+      sprite2 = %{sprite2 | color: :red}
+      sprite3 = Sprite.new()
+      sprite3 = %{sprite3 | grid_coordinate: {6, 7}}
+      sprite3 = %{sprite3 | color: :red}
+
+      canvas = %{canvas | sprites: [sprite1, sprite2, sprite3]}
+
+      {col, row} = sprite1.grid_coordinate
+      expected_grid_coordinate = {col + 1, row}
+
+      updated_canvas = Canvas.move_sprite(canvas, sprite1, :right)
+
+      assert Enum.count(updated_canvas.sprites) == Enum.count(canvas.sprites)
+      assert Enum.at(updated_canvas.sprites, 1) == Enum.at(canvas.sprites, 1)
+      assert Enum.at(updated_canvas.sprites, 2) == Enum.at(canvas.sprites, 2)
+
+      assert Enum.at(updated_canvas.sprites, 0).grid_coordinate == expected_grid_coordinate
+
+    end
   end
 
   describe "render/2" do

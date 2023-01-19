@@ -54,7 +54,33 @@ def can_collect_item?(
 end
 
 def has_item?(canvas) do
-  canvas.sprites |> Enum.count == 2
+  canvas.sprites |> Enum.count >= 2
+end
+
+def remove_sprite(canvas, sprite) do
+  filtered_sprites =
+    canvas.sprites |>
+    Enum.filter(
+      fn s ->
+        s.grid_coordinate != sprite.grid_coordinate
+      end
+    )
+  %{canvas | sprites: filtered_sprites}
+end
+
+def move_sprite(canvas, sprite, direction) do
+  grid_coordinate = sprite.grid_coordinate
+  updated_sprites =
+    canvas.sprites
+    |> Enum.map(
+      fn s ->
+        case s.grid_coordinate do
+          ^grid_coordinate -> Sprite.move(sprite, direction)
+          _ -> s
+        end
+      end
+    )
+  %{canvas | sprites: updated_sprites}
 end
 
 def render(canvas) do

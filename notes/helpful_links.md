@@ -15,3 +15,5 @@
 # SVG
 
 * [SVG colors](https://docs.aspose.com/svg/net/drawing-basics/svg-color/)
+
+* [Enum map to update element](https://stackoverflow.com/questions/66696409/how-to-replace-elements-in-an-array-in-elixir)

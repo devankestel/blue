@@ -53,6 +53,10 @@ def can_collect_item?(
   end
 end
 
+def has_item?(canvas) do
+  canvas.sprites |> Enum.count == 2
+end
+
 def render(canvas) do
   header = Svg.header(canvas)
   footer = Svg.footer()

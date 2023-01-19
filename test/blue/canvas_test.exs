@@ -158,6 +158,31 @@ defmodule Blue.CanvasTest do
     end
   end
 
+  describe "has_item/1" do
+    test "it returns true when an item is present in the sprite list" do
+      canvas = Canvas.new()
+      sprite1 = Sprite.new()
+      sprite2 = Sprite.new()
+      sprite2 = %{sprite2 | grid_coordinate: {5, 5}}
+      sprite2 = %{sprite2 | color: :red}
+      canvas = %{canvas | sprites: [sprite1, sprite2]}
+
+      item? = Canvas.has_item?(canvas)
+
+      assert item? == true
+    end
+    test "it returns false when no item is present in the sprite list" do
+      canvas = Canvas.new()
+      sprite1 = Sprite.new()
+
+      canvas = %{canvas | sprites: [sprite1]}
+
+      item? = Canvas.has_item?(canvas)
+
+      assert item? == false
+    end
+  end
+
   describe "render/2" do
     test "it renders a full svg, header, footer, and sprites" do
       canvas = Canvas.new()

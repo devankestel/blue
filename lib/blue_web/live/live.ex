@@ -61,9 +61,17 @@ defmodule BlueWeb.BlueLive do
   end
 
   def move_protagonist(direction, canvas) do
+    cond do
+      Canvas.has_item?(canvas) ->
+        move_protagonist_with_item(direction, canvas)
+      true ->
+       move_protagonist_without_item(direction, canvas)
+    end
+  end
+
+  def move_protagonist_with_item(direction, canvas) do
     protagonist_sprite = Enum.at(canvas.sprites, 0)
     item_sprite = Enum.at(canvas.sprites, 1)
-
     cond do
       Canvas.is_at_grid_edge?(canvas, direction, protagonist_sprite.grid_coordinate) ->
         canvas
@@ -73,6 +81,17 @@ defmodule BlueWeb.BlueLive do
       true ->
         protagonist_sprite = protagonist_sprite |> Sprite.move(direction)
         %{canvas | sprites: [protagonist_sprite, item_sprite]}
+    end
+  end
+
+  def move_protagonist_without_item(direction, canvas) do
+    protagonist_sprite = Enum.at(canvas.sprites, 0)
+    cond do
+      Canvas.is_at_grid_edge?(canvas, direction, protagonist_sprite.grid_coordinate) ->
+        canvas
+      true ->
+        protagonist_sprite = protagonist_sprite |> Sprite.move(direction)
+        %{canvas | sprites: [protagonist_sprite]}
     end
   end
 

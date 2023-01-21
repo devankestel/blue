@@ -62,6 +62,28 @@ def can_collect_item?(
   end
 end
 
+def has_adjacent_sprite?(
+  canvas,
+  direction,
+  grid_coordinate
+  ) do
+
+  {col, row} = grid_coordinate
+
+  canvas.sprites
+    |> Enum.any?(
+      fn s ->
+        case direction do
+          :left -> s.grid_coordinate == {col - 1, row}
+          :right -> s.grid_coordinate == {col + 1, row}
+          :up -> s.grid_coordinate == {col, row - 1}
+          :down -> s.grid_coordinate == {col, row + 1}
+          _ -> false
+        end
+      end
+    )
+end
+
 def has_item?(canvas) do
   canvas.sprites |> Enum.count >= 2
 end

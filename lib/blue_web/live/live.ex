@@ -16,11 +16,12 @@ defmodule BlueWeb.BlueLive do
 
   def mount(_params, _session, socket) do
     canvas = Canvas.new()
-    sprite1 = Sprite.new()
-    sprite2 = Sprite.new()
-    sprite2 = %{sprite2 | grid_coordinate: {5, 5}}
-    sprite2 = %{sprite2 | color: :red}
-    canvas = %{canvas | sprites: [sprite1, sprite2]}
+    protagonist_sprite = Sprite.new()
+    protagonist_sprite = %{protagonist_sprite | type: :protagonist}
+    item_sprite = Sprite.new()
+    item_sprite = %{item_sprite | grid_coordinate: {5, 5}}
+    item_sprite = %{item_sprite | color: :red}
+    canvas = %{canvas | sprites: [protagonist_sprite, item_sprite]}
     {:ok, assign(
       socket,
       val: 0,
@@ -70,7 +71,7 @@ defmodule BlueWeb.BlueLive do
   end
 
   def move_protagonist_with_item(direction, canvas) do
-    protagonist_sprite = Enum.at(canvas.sprites, 0)
+    protagonist_sprite = Canvas.get_sprites_by_type(canvas, :protagonist) |> Enum.at(0)
     item_sprite = Enum.at(canvas.sprites, 1)
     cond do
       Canvas.is_at_grid_edge?(canvas, direction, protagonist_sprite.grid_coordinate) ->
@@ -86,7 +87,7 @@ defmodule BlueWeb.BlueLive do
   end
 
   def move_protagonist_without_item(direction, canvas) do
-    protagonist_sprite = Enum.at(canvas.sprites, 0)
+    protagonist_sprite = Canvas.get_sprites_by_type(canvas, :protagonist) |> Enum.at(0)
     cond do
       Canvas.is_at_grid_edge?(canvas, direction, protagonist_sprite.grid_coordinate) ->
         canvas

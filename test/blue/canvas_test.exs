@@ -242,6 +242,65 @@ defmodule Blue.CanvasTest do
     end
   end
 
+  describe "has adjacent sprite/2" do
+    test "has adjacent sprite to the left" do
+      protagonist_sprite = Sprite.new()
+      protagonist_sprite = %{protagonist_sprite | grid_coordinate: {2, 1}}
+      protagonist_sprite = %{protagonist_sprite | type: :protagonist}
+      item_sprite = Sprite.new()
+      item_sprite = %{item_sprite | grid_coordinate: {1, 1}}
+      item_sprite = %{item_sprite | type: :item}
+      canvas = Canvas.new()
+      canvas = %{canvas | sprites: [protagonist_sprite, item_sprite]}
+
+      adjacent_sprite? = Canvas.has_adjacent_sprite?(canvas, :left, protagonist_sprite.grid_coordinate)
+
+      assert adjacent_sprite? == true
+    end
+    test "has adjacent sprite to the right" do
+      protagonist_sprite = Sprite.new()
+      protagonist_sprite = %{protagonist_sprite | grid_coordinate: {2, 1}}
+      protagonist_sprite = %{protagonist_sprite | type: :protagonist}
+      item_sprite = Sprite.new()
+      item_sprite = %{item_sprite | grid_coordinate: {3, 1}}
+      item_sprite = %{item_sprite | type: :item}
+      canvas = Canvas.new()
+      canvas = %{canvas | sprites: [protagonist_sprite, item_sprite]}
+
+      adjacent_sprite? = Canvas.has_adjacent_sprite?(canvas, :right, protagonist_sprite.grid_coordinate)
+
+      assert adjacent_sprite? == true
+    end
+    test "has adjacent sprite above" do
+      protagonist_sprite = Sprite.new()
+      protagonist_sprite = %{protagonist_sprite | grid_coordinate: {2, 2}}
+      protagonist_sprite = %{protagonist_sprite | type: :protagonist}
+      item_sprite = Sprite.new()
+      item_sprite = %{item_sprite | grid_coordinate: {2, 1}}
+      item_sprite = %{item_sprite | type: :item}
+      canvas = Canvas.new()
+      canvas = %{canvas | sprites: [protagonist_sprite, item_sprite]}
+
+      adjacent_sprite? = Canvas.has_adjacent_sprite?(canvas, :up, protagonist_sprite.grid_coordinate)
+
+      assert adjacent_sprite? == true
+    end
+    test "has adjacent sprite below" do
+      protagonist_sprite = Sprite.new()
+      protagonist_sprite = %{protagonist_sprite | grid_coordinate: {2, 1}}
+      protagonist_sprite = %{protagonist_sprite | type: :protagonist}
+      item_sprite = Sprite.new()
+      item_sprite = %{item_sprite | grid_coordinate: {2, 2}}
+      item_sprite = %{item_sprite | type: :item}
+      canvas = Canvas.new()
+      canvas = %{canvas | sprites: [protagonist_sprite, item_sprite]}
+
+      adjacent_sprite? = Canvas.has_adjacent_sprite?(canvas, :down, protagonist_sprite.grid_coordinate)
+
+      assert adjacent_sprite? == true
+    end
+  end
+
   describe "move_sprite/3" do
     test "move the first sprite" do
       canvas = Canvas.new()

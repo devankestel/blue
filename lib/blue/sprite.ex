@@ -22,11 +22,13 @@ defmodule Blue.Sprite do
     @type grid_coordinate :: {integer, integer}
     @type direction :: :up | :down | :left | :right
     @type color :: :black | :red
-    @type t :: %Sprite{grid_coordinate: grid_coordinate(), color: color}
+    @type type :: :none | :item | :protagonist
+    @type t :: %Sprite{grid_coordinate: grid_coordinate(), color: color, type: type}
 
     defstruct [
         grid_coordinate: {1, 1},
-        color: :black
+        color: :black,
+        type: :none
     ]
 
     @spec new() :: Sprite.t()

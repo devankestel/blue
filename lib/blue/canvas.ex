@@ -35,6 +35,15 @@ def is_at_grid_edge?(canvas, direction, grid_coordinate) do
     end
 end
 
+def get_sprites_by_type(canvas, type) do
+  canvas.sprites |>
+  Enum.filter(
+    fn s ->
+      s.type == type
+    end
+    )
+end
+
 def can_collect_item?(
   direction,
   protagonist_grid_coordinate,

@@ -8,6 +8,7 @@ defmodule Blue.SpriteTest do
 
             assert sprite.grid_coordinate == {1, 1}
             assert sprite.color == :black
+            assert sprite.type == :none
         end
     end
 

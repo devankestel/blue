@@ -90,7 +90,7 @@ defmodule Blue.CanvasTest do
     end
   end
 
-  describe "can_collect_item?/2" do
+  describe "can_collect_item?/3" do
     test "returns true with item to the left" do
       protagonist = Sprite.new()
       protagonist = %{protagonist | grid_coordinate: {2, 1}}
@@ -196,6 +196,27 @@ defmodule Blue.CanvasTest do
       item? = Canvas.has_item?(canvas)
 
       assert item? == true
+    end
+  end
+  describe "get_sprites_by_type/2" do
+    test "gets items from sprites list" do
+      canvas = Canvas.new()
+      protagonist_sprite = Sprite.new()
+      protagonist_sprite = %{protagonist_sprite | type: :protagonist}
+      item1_sprite = Sprite.new()
+      item1_sprite = %{item1_sprite | grid_coordinate: {5, 5}}
+      item1_sprite = %{item1_sprite | color: :red}
+      item1_sprite = %{item1_sprite | type: :item}
+      item2_sprite = Sprite.new()
+      item2_sprite = %{item2_sprite | grid_coordinate: {6, 7}}
+      item2_sprite = %{item2_sprite | color: :red}
+      item2_sprite = %{item2_sprite | type: :item}
+
+      canvas = %{canvas | sprites: [protagonist_sprite, item1_sprite, item2_sprite]}
+
+      item_sprites = Canvas.get_sprites_by_type(canvas, :item)
+
+      assert item_sprites == [item1_sprite, item2_sprite]
     end
   end
 

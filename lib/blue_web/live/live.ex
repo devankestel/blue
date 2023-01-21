@@ -18,10 +18,19 @@ defmodule BlueWeb.BlueLive do
     canvas = Canvas.new()
     protagonist_sprite = Sprite.new()
     protagonist_sprite = %{protagonist_sprite | type: :protagonist}
-    item_sprite = Sprite.new()
-    item_sprite = %{item_sprite | grid_coordinate: {5, 5}}
-    item_sprite = %{item_sprite | color: :red}
-    canvas = %{canvas | sprites: [protagonist_sprite, item_sprite]}
+    item_sprite1 = Sprite.new()
+    item_sprite1 = %{item_sprite1 | grid_coordinate: {5, 5}}
+    item_sprite1 = %{item_sprite1 | color: :red}
+    item_sprite1 = %{item_sprite1 | type: :item}
+    item_sprite2 = Sprite.new()
+    item_sprite2 = %{item_sprite2 | grid_coordinate: {8, 8}}
+    item_sprite2 = %{item_sprite2 | color: :red}
+    item_sprite2 = %{item_sprite2 | type: :item}
+    item_sprite3 = Sprite.new()
+    item_sprite3 = %{item_sprite3 | grid_coordinate: {4, 8}}
+    item_sprite3 = %{item_sprite3 | color: :blue}
+    item_sprite3 = %{item_sprite3 | type: :item}
+    canvas = %{canvas | sprites: [protagonist_sprite, item_sprite1, item_sprite2, item_sprite3]}
     {:ok, assign(
       socket,
       val: 0,
@@ -72,11 +81,12 @@ defmodule BlueWeb.BlueLive do
 
   def move_protagonist_with_item(direction, canvas) do
     protagonist_sprite = Canvas.get_sprites_by_type(canvas, :protagonist) |> Enum.at(0)
-    item_sprite = Enum.at(canvas.sprites, 1)
+
     cond do
       Canvas.is_at_grid_edge?(canvas, direction, protagonist_sprite.grid_coordinate) ->
         canvas
-      Canvas.can_collect_item?(direction, protagonist_sprite.grid_coordinate, item_sprite.grid_coordinate) ->
+      Canvas.has_adjacent_sprite?(canvas, direction, protagonist_sprite.grid_coordinate) ->
+        item_sprite = Canvas.get_adjacent_sprite(canvas, direction, protagonist_sprite.grid_coordinate)
         canvas
          |> Canvas.remove_sprite(item_sprite)
          |> Canvas.move_sprite(protagonist_sprite, direction)

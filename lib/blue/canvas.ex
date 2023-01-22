@@ -1,4 +1,5 @@
 defmodule Blue.Canvas do
+  alias __MODULE__
   alias Blue.{Sprite, Svg}
 
   @type grid_size :: integer
@@ -12,7 +13,7 @@ defmodule Blue.Canvas do
     sprites: []
 ]
 
-@spec new() :: Canvas.t()
+
 def new(), do: __struct__()
 
 def get_num_cols(canvas) do
@@ -150,5 +151,26 @@ def render(canvas) do
   middle = Enum.join(sprite_svgs)
 
   Enum.join([header, middle, footer])
+end
+
+def from_json(path) do
+  {:ok, contents} = File.read(path)
+  raw_canvas_map = Jason.decode!(contents)
+  sprites = raw_canvas_map["sprites"]
+    |> Enum.map(
+      fn s ->
+        %Sprite{
+          grid_coordinate: {s["grid_coordinate"]["col"], s["grid_coordinate"]["row"]},
+          color: String.to_existing_atom(s["color"]),
+          type: String.to_existing_atom(s["type"])
+        }
+      end
+    )
+  %Canvas{
+    grid_size: raw_canvas_map["grid_size"],
+    width: raw_canvas_map["width"],
+    height: raw_canvas_map["height"],
+    sprites: sprites
+  }
 end
 end

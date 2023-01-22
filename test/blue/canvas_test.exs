@@ -423,4 +423,10 @@ defmodule Blue.CanvasTest do
         assert svg == expected_svg
     end
   end
+
+  describe "from_json/1" do
+    result = Canvas.from_json("test/blue/fixtures/example_canvas.json")
+
+    assert result == "poop"
+  end
 end

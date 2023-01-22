@@ -1,6 +1,6 @@
 defmodule Blue.Canvas do
   alias __MODULE__
-  alias Blue.{Sprite, Svg}
+  alias Blue.{Sprite, Color, Svg}
 
   @type grid_size :: integer
   @type width :: integer
@@ -161,8 +161,8 @@ def from_json(path) do
       fn s ->
         %Sprite{
           grid_coordinate: {s["grid_coordinate"]["col"], s["grid_coordinate"]["row"]},
-          color: String.to_existing_atom(s["color"]),
-          type: String.to_existing_atom(s["type"])
+          color: Color.to_atom(s["color"]),
+          type: Sprite.type_to_atom(s["type"])
         }
       end
     )

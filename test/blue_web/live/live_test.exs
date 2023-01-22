@@ -26,12 +26,15 @@ defmodule BlueWeb.BlueLiveTest do
   describe "update_canvas/2" do
     test "move protagonist up" do
       canvas = Canvas.new()
-      sprite = Sprite.new()
-      sprite = %{sprite | grid_coordinate: {5, 5}}
-      canvas = %{canvas | sprites: [sprite]}
+      protagonist_sprite = %Sprite{
+        grid_coordinate: {5, 5},
+        type: :protagonist,
+        color: :black
+      }
+      canvas = %{canvas | sprites: [protagonist_sprite]}
       key_pressed = "ArrowUp"
 
-      {col, row} = sprite.grid_coordinate
+      {col, row} = protagonist_sprite.grid_coordinate
       expected_grid_coordinate = {col, row - 1}
 
       updated_canvas = BlueLive.update_canvas(key_pressed, canvas)
@@ -43,12 +46,15 @@ defmodule BlueWeb.BlueLiveTest do
     end
     test "move protagonist down" do
       canvas = Canvas.new()
-      sprite = Sprite.new()
-      sprite = %{sprite | grid_coordinate: {5, 5}}
-      canvas = %{canvas | sprites: [sprite]}
+      protagonist_sprite = %Sprite{
+        grid_coordinate: {5, 5},
+        type: :protagonist,
+        color: :black
+      }
+      canvas = %{canvas | sprites: [protagonist_sprite]}
       key_pressed = "ArrowDown"
 
-      {col, row} = sprite.grid_coordinate
+      {col, row} = protagonist_sprite.grid_coordinate
       expected_grid_coordinate = {col, row + 1}
 
       updated_canvas = BlueLive.update_canvas(key_pressed, canvas)
@@ -59,12 +65,15 @@ defmodule BlueWeb.BlueLiveTest do
     end
     test "move protagonist right" do
       canvas = Canvas.new()
-      sprite = Sprite.new()
-      sprite = %{sprite | grid_coordinate: {5, 5}}
-      canvas = %{canvas | sprites: [sprite]}
+      protagonist_sprite = %Sprite{
+        grid_coordinate: {5, 5},
+        type: :protagonist,
+        color: :black
+      }
+      canvas = %{canvas | sprites: [protagonist_sprite]}
       key_pressed = "ArrowRight"
 
-      {col, row} = sprite.grid_coordinate
+      {col, row} = protagonist_sprite.grid_coordinate
       expected_grid_coordinate = {col + 1, row}
 
       updated_canvas = BlueLive.update_canvas(key_pressed, canvas)
@@ -75,12 +84,15 @@ defmodule BlueWeb.BlueLiveTest do
     end
     test "move_protagonist left" do
       canvas = Canvas.new()
-      sprite = Sprite.new()
-      sprite = %{sprite | grid_coordinate: {5, 5}}
-      canvas = %{canvas | sprites: [sprite]}
+      protagonist_sprite = %Sprite{
+        grid_coordinate: {5, 5},
+        type: :protagonist,
+        color: :black
+      }
+      canvas = %{canvas | sprites: [protagonist_sprite]}
       key_pressed = "ArrowLeft"
 
-      {col, row} = sprite.grid_coordinate
+      {col, row} = protagonist_sprite.grid_coordinate
       expected_grid_coordinate = {col - 1, row}
 
       updated_canvas = BlueLive.update_canvas(key_pressed, canvas)

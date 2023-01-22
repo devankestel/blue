@@ -7,10 +7,23 @@ defmodule Blue.Color do
         green: {0, 255, 0, 1},
         blue: {0, 0, 255, 1},
         white: {255, 255, 255, 1},
-        gray: {100, 100, 100, 1}
+        gray: {100, 100, 100, 1},
+        neon_yellow: {224,231,34, 1}
     ]
 
     def new(), do: __struct__()
+
+    def to_atom(color_string) do
+      case color_string do
+        "black" -> :black
+        "red" -> :red
+        "green" -> :green
+        "blue" -> :blue
+        "white" -> :white
+        "gray" -> :gray
+        _ -> :neon_yellow
+      end
+    end
 end
 
 defmodule Blue.Sprite do
@@ -55,6 +68,15 @@ defmodule Blue.Sprite do
             _ ->
                 {col, row}
         end
+    end
+
+    def type_to_atom(type_string) do
+      case type_string do
+        "protagonist" -> :protagonist
+        "item" -> :item
+        "wall" -> :wall
+        _ -> :none
+      end
     end
 
     @spec get_color_vector(Sprite.t()) :: {integer, integer, integer, integer}

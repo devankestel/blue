@@ -101,59 +101,7 @@ defmodule BlueWeb.BlueLive do
   end
 
   def create_starting_canvas() do
-    canvas = Canvas.new()
-
-    protagonist_sprite = %Sprite{
-    grid_coordinate: {1, 1},
-    type: :protagonist,
-    color: :black
-    }
-
-    item_sprite1 = %Sprite{
-      grid_coordinate: {5, 5},
-      color: :red,
-      type: :item
-    }
-
-    item_sprite2 = %Sprite{
-      grid_coordinate: {8, 8},
-      color: :red,
-      type: :item
-    }
-
-    item_sprite3 = %Sprite{
-      grid_coordinate: {4, 8},
-      color: :blue,
-      type: :item
-    }
-
-    wall_sprite1 = %Sprite{
-      grid_coordinate: {3, 4},
-      color: :gray,
-      type: :wall
-    }
-
-    wall_sprite2 = %Sprite{
-      grid_coordinate: {3, 5},
-      color: :gray,
-      type: :wall
-    }
-
-    wall_sprite3 = %Sprite{
-      grid_coordinate: {3, 6},
-      color: :gray,
-      type: :wall
-    }
-
-    %{canvas | sprites: [
-      protagonist_sprite,
-      item_sprite1,
-      item_sprite2,
-      item_sprite3,
-      wall_sprite1,
-      wall_sprite2,
-      wall_sprite3
-      ]}
+    Canvas.from_json("test/blue/fixtures/example_canvas.json")
   end
 
   def render(assigns) do

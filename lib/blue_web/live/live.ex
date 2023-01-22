@@ -16,32 +16,48 @@ defmodule BlueWeb.BlueLive do
 
   def mount(_params, _session, socket) do
     canvas = Canvas.new()
-    protagonist_sprite = Sprite.new()
-    protagonist_sprite = %{protagonist_sprite | type: :protagonist}
-    item_sprite1 = Sprite.new()
-    item_sprite1 = %{item_sprite1 | grid_coordinate: {5, 5}}
-    item_sprite1 = %{item_sprite1 | color: :red}
-    item_sprite1 = %{item_sprite1 | type: :item}
-    item_sprite2 = Sprite.new()
-    item_sprite2 = %{item_sprite2 | grid_coordinate: {8, 8}}
-    item_sprite2 = %{item_sprite2 | color: :red}
-    item_sprite2 = %{item_sprite2 | type: :item}
-    item_sprite3 = Sprite.new()
-    item_sprite3 = %{item_sprite3 | grid_coordinate: {4, 8}}
-    item_sprite3 = %{item_sprite3 | color: :blue}
-    item_sprite3 = %{item_sprite3 | type: :item}
-    wall_sprite1 = Sprite.new()
-    wall_sprite1 = %{wall_sprite1 | grid_coordinate: {3, 4}}
-    wall_sprite1 = %{wall_sprite1 | color: :gray}
-    wall_sprite1 = %{wall_sprite1 | type: :wall}
-    wall_sprite2 = Sprite.new()
-    wall_sprite2 = %{wall_sprite2 | grid_coordinate: {3, 5}}
-    wall_sprite2 = %{wall_sprite2 | color: :gray}
-    wall_sprite2 = %{wall_sprite2 | type: :wall}
-    wall_sprite3 = Sprite.new()
-    wall_sprite3 = %{wall_sprite3 | grid_coordinate: {3, 6}}
-    wall_sprite3 = %{wall_sprite3 | color: :gray}
-    wall_sprite3 = %{wall_sprite3 | type: :wall}
+
+    protagonist_sprite = %Sprite{
+    grid_coordinate: {1, 1},
+    type: :protagonist,
+    color: :black
+    }
+
+    item_sprite1 = %Sprite{
+      grid_coordinate: {5, 5},
+      color: :red,
+      type: :item
+    }
+
+    item_sprite2 = %Sprite{
+      grid_coordinate: {8, 8},
+      color: :red,
+      type: :item
+    }
+
+    item_sprite3 = %Sprite{
+      grid_coordinate: {4, 8},
+      color: :blue,
+      type: :item
+    }
+
+    wall_sprite1 = %Sprite{
+      grid_coordinate: {3, 4},
+      color: :gray,
+      type: :wall
+    }
+
+    wall_sprite2 = %Sprite{
+      grid_coordinate: {3, 5},
+      color: :gray,
+      type: :wall
+    }
+
+    wall_sprite3 = %Sprite{
+      grid_coordinate: {3, 6},
+      color: :gray,
+      type: :wall
+    }
 
     canvas = %{canvas | sprites: [
       protagonist_sprite,

@@ -71,15 +71,6 @@ defmodule BlueWeb.BlueLive do
   end
 
   def move_protagonist(direction, canvas) do
-    cond do
-      Canvas.has_item?(canvas) ->
-        move_protagonist_with_item(direction, canvas)
-      true ->
-       move_protagonist_without_item(direction, canvas)
-    end
-  end
-
-  def move_protagonist_with_item(direction, canvas) do
     protagonist_sprite = Canvas.get_sprites_by_type(canvas, :protagonist) |> Enum.at(0)
 
     cond do
@@ -90,17 +81,6 @@ defmodule BlueWeb.BlueLive do
         canvas
          |> Canvas.remove_sprite(item_sprite)
          |> Canvas.move_sprite(protagonist_sprite, direction)
-      true ->
-        canvas
-          |> Canvas.move_sprite(protagonist_sprite, direction)
-    end
-  end
-
-  def move_protagonist_without_item(direction, canvas) do
-    protagonist_sprite = Canvas.get_sprites_by_type(canvas, :protagonist) |> Enum.at(0)
-    cond do
-      Canvas.is_at_grid_edge?(canvas, direction, protagonist_sprite.grid_coordinate) ->
-        canvas
       true ->
         canvas
           |> Canvas.move_sprite(protagonist_sprite, direction)

@@ -6,7 +6,8 @@ defmodule Blue.Color do
         red: {255, 0, 0, 1},
         green: {0, 255, 0, 1},
         blue: {0, 0, 255, 1},
-        white: {255, 255, 255, 1}
+        white: {255, 255, 255, 1},
+        gray: {100, 100, 100, 1}
     ]
 
     def new(), do: __struct__()

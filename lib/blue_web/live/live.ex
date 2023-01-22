@@ -30,7 +30,28 @@ defmodule BlueWeb.BlueLive do
     item_sprite3 = %{item_sprite3 | grid_coordinate: {4, 8}}
     item_sprite3 = %{item_sprite3 | color: :blue}
     item_sprite3 = %{item_sprite3 | type: :item}
-    canvas = %{canvas | sprites: [protagonist_sprite, item_sprite1, item_sprite2, item_sprite3]}
+    wall_sprite1 = Sprite.new()
+    wall_sprite1 = %{wall_sprite1 | grid_coordinate: {3, 4}}
+    wall_sprite1 = %{wall_sprite1 | color: :gray}
+    wall_sprite1 = %{wall_sprite1 | type: :wall}
+    wall_sprite2 = Sprite.new()
+    wall_sprite2 = %{wall_sprite2 | grid_coordinate: {3, 5}}
+    wall_sprite2 = %{wall_sprite2 | color: :gray}
+    wall_sprite2 = %{wall_sprite2 | type: :wall}
+    wall_sprite3 = Sprite.new()
+    wall_sprite3 = %{wall_sprite3 | grid_coordinate: {3, 6}}
+    wall_sprite3 = %{wall_sprite3 | color: :gray}
+    wall_sprite3 = %{wall_sprite3 | type: :wall}
+
+    canvas = %{canvas | sprites: [
+      protagonist_sprite,
+      item_sprite1,
+      item_sprite2,
+      item_sprite3,
+      wall_sprite1,
+      wall_sprite2,
+      wall_sprite3
+      ]}
     {:ok, assign(
       socket,
       val: 0,
@@ -77,14 +98,31 @@ defmodule BlueWeb.BlueLive do
       Canvas.is_at_grid_edge?(canvas, direction, protagonist_sprite.grid_coordinate) ->
         canvas
       Canvas.has_adjacent_sprite?(canvas, direction, protagonist_sprite.grid_coordinate) ->
-        item_sprite = Canvas.get_adjacent_sprite(canvas, direction, protagonist_sprite.grid_coordinate)
-        canvas
-         |> Canvas.remove_sprite(item_sprite)
-         |> Canvas.move_sprite(protagonist_sprite, direction)
+        handle_adjacent_sprite(canvas, direction, protagonist_sprite)
       true ->
         canvas
           |> Canvas.move_sprite(protagonist_sprite, direction)
     end
+  end
+
+  def handle_adjacent_sprite(canvas, direction, protagonist_sprite) do
+    adjacent_sprite = Canvas.get_adjacent_sprite(canvas, direction, protagonist_sprite.grid_coordinate)
+
+    case adjacent_sprite.type do
+      :item -> handle_item_sprite(canvas, direction, protagonist_sprite, adjacent_sprite)
+      :wall -> handle_wall_sprite(canvas)
+    end
+
+  end
+
+  def handle_item_sprite(canvas, direction, protagonist_sprite, item_sprite) do
+    canvas
+      |> Canvas.remove_sprite(item_sprite)
+      |> Canvas.move_sprite(protagonist_sprite, direction)
+  end
+
+  def handle_wall_sprite(canvas) do
+    canvas
   end
 
   def get_direction(key_pressed) do

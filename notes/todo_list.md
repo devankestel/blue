@@ -1,4 +1,7 @@
-* [ ] `Canvas.to_json`
+* [x] `Canvas.to_json`
+* [x] `Sprite.from_json`
+* [x] `Sprite.mapify`
+* [x] `Canvas.mapyify`
 * [ ] "Export to JSON" button on `live.ex`
 * [ ] json path field on `live.ex`
 * [ ] `handle_to_json` on `live.ex`

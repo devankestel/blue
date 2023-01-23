@@ -1,15 +1,19 @@
 defmodule BlueWeb.BlueLive do
   use BlueWeb, :live_view
 
-  alias Blue.Canvas
+  alias Blue.{Canvas, State}
 
   def mount(_params, _session, socket) do
     canvas = create_starting_canvas()
 
+    state = %State{
+      canvas: canvas
+    }
+
     {:ok, assign(
       socket,
       val: 0,
-      canvas: canvas
+      state: state
       )}
   end
 
@@ -24,13 +28,20 @@ defmodule BlueWeb.BlueLive do
   def handle_event("keypress", params, socket) do
     IO.inspect(params)
     IO.inspect(socket)
-    IO.inspect(socket.assigns.canvas)
+    IO.inspect(socket.assigns.state)
     %{"key" => key_pressed} = params
     {:noreply,
     assign(
       socket,
-      canvas: update_canvas(key_pressed, socket.assigns.canvas)
+      state: update_state(key_pressed, socket.assigns.state)
       )
+    }
+  end
+
+  def update_state(key_pressed, state) do
+    updated_canvas = update_canvas(key_pressed, state.canvas)
+    %State{
+      canvas: updated_canvas
     }
   end
 
@@ -102,7 +113,7 @@ defmodule BlueWeb.BlueLive do
     <button phx-click="inc">+</button>
     </p>
     <div phx-window-keydown="keypress">
-    <%= raw Canvas.render(@canvas) %>
+    <%= raw Canvas.render(@state.canvas) %>
     </div>
     </div>
     """

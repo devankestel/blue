@@ -3,7 +3,7 @@
 * [x] `Sprite.mapify`
 * [x] `Canvas.mapyify`
 * [x] Create State module
-* [ ] Convert liveview to work off of state map
+* [x] Convert liveview to work off of state map
 * [ ] Add type specs to all methods that don't have them
 * [ ] "Export to JSON" button on `live.ex`
 * [ ] json path field on `live.ex`

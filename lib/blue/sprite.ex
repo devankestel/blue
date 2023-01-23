@@ -70,6 +70,26 @@ defmodule Blue.Sprite do
         end
     end
 
+    def from_json(sprite_json_string) do
+      %Sprite{
+        grid_coordinate: {
+          sprite_json_string["grid_coordinate"]["col"],
+          sprite_json_string["grid_coordinate"]["row"]
+        },
+        color: Color.to_atom(sprite_json_string["color"]),
+        type: Sprite.type_to_atom(sprite_json_string["type"])
+      }
+    end
+
+    def mapify(sprite) do
+      {col, row} = sprite.grid_coordinate
+        %{
+          grid_coordinate: %{col: col, row: row},
+          type: Atom.to_string(sprite.type),
+          color: Atom.to_string(sprite.color),
+        }
+    end
+
     def type_to_atom(type_string) do
       case type_string do
         "protagonist" -> :protagonist

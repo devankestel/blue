@@ -76,4 +76,65 @@ defmodule Blue.SpriteTest do
         end
     end
 
+    describe "from_json/1" do
+      test "changes json string into sprite struct" do
+        path =   "test/blue/fixtures/example_sprite.json"
+
+        expected_sprite = %Sprite{
+          grid_coordinate: {5, 5},
+          color: :black,
+          type: :protagonist,
+        }
+
+        {:ok, sprite_contents} = File.read(path)
+        sprite_json_string = Jason.decode!(sprite_contents)
+
+        sprite = Sprite.from_json(sprite_json_string)
+
+        assert sprite == expected_sprite
+
+      end
+    end
+
+    describe "mapify/1" do
+      test "changes sprite into map for encoding to json" do
+
+        sprite = %Sprite{
+          grid_coordinate: {5, 5},
+          color: :black,
+          type: :protagonist,
+        }
+
+        expected_sprite_map = %{
+          grid_coordinate: %{
+            col: 5,
+            row: 5,
+          },
+          color: "black",
+          type: "protagonist",
+        }
+
+        sprite_map = Sprite.mapify(sprite)
+
+        assert sprite_map == expected_sprite_map
+
+      end
+    end
+
+    describe "type_to_atom/1" do
+      test "all the cases" do
+        protagonist = Sprite.type_to_atom("protagonist")
+        assert protagonist == :protagonist
+
+        item = Sprite.type_to_atom("item")
+        assert item == :item
+
+        wall = Sprite.type_to_atom("wall")
+        assert wall == :wall
+
+        no_match = Sprite.type_to_atom("no_match")
+        assert no_match == :none
+      end
+    end
+
 end

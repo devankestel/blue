@@ -425,13 +425,39 @@ defmodule Blue.CanvasTest do
 
   describe "from_json/1" do
     test "it creates a canvas from a json file" do
-      expected_canvas = create_expected_canvas()
+      expected_canvas = create_example_canvas()
       canavas_from_json = Canvas.from_json("test/blue/fixtures/example_canvas.json")
       assert canavas_from_json == expected_canvas
     end
   end
 
-  def create_expected_canvas() do
+  describe "to_json/2" do
+    test "it creates a json file from a canvas and path" do
+      #@TODO: This is more like an integration test right now
+      # need a good way to equate JSON strings
+      # maybe can do it by stripping spacing or something, idk
+
+      canvas = create_example_canvas()
+      path = "test/blue/fixtures/result_canvas.json"
+      example_path =  "test/blue/fixtures/example_canvas.json"
+
+      expected_canvas = Canvas.from_json(example_path)
+
+      Canvas.to_json(canvas, path)
+
+      result_canvas = Canvas.from_json(path)
+
+      assert result_canvas == expected_canvas
+
+      teardown_created_file(path)
+    end
+  end
+
+  def teardown_created_file(path) do
+    File.rm(path)
+  end
+
+  def create_example_canvas() do
     canvas = Canvas.new()
 
     protagonist_sprite = %Sprite{

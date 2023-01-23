@@ -173,4 +173,31 @@ def from_json(path) do
     sprites: sprites
   }
 end
+
+def to_json(canvas, path) do
+  canvas_map = %{
+    width: canvas.width,
+    height: canvas.height,
+    grid_size: canvas.grid_size,
+    sprites: stringify_sprites(canvas.sprites)
+  }
+  canvas_json_string = Jason.encode!(canvas_map)
+  {:ok, file} = File.open(path, [:write])
+  IO.binwrite(file, canvas_json_string)
+  File.close(file)
+end
+
+def stringify_sprites(sprites) do
+  sprites
+    |> Enum.map(
+      fn s ->
+        {col, row} = s.grid_coordinate
+        %{
+          grid_coordinate: %{col: col, row: row},
+          type: Atom.to_string(s.type),
+          color: Atom.to_string(s.color),
+        }
+      end
+    )
+end
 end

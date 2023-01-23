@@ -1,18 +1,7 @@
 defmodule BlueWeb.BlueLive do
   use BlueWeb, :live_view
 
-  alias Blue.{Canvas, Sprite, Svg}
-
-  @canvas_width 200
-  @canvas_height 400
-  @grid_size 20
-
-
-  def grid_size, do: @grid_size
-
-  def canvas_width, do: @canvas_width
-
-  def canvas_height, do: @canvas_height
+  alias Blue.Canvas
 
   def mount(_params, _session, socket) do
     canvas = create_starting_canvas()

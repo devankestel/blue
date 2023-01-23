@@ -103,4 +103,19 @@ defmodule BlueWeb.BlueLiveTest do
     end
   end
 
+  describe "get_direction/1" do
+    test "gets all directions" do
+      left = BlueLive.get_direction("ArrowLeft")
+      assert left == :left
+      right = BlueLive.get_direction("ArrowRight")
+      assert right == :right
+      up = BlueLive.get_direction("ArrowUp")
+      assert up == :up
+      down = BlueLive.get_direction("ArrowDown")
+      assert down == :down
+      no_match = BlueLive.get_direction("InvalidKey")
+      assert no_match == :nomatch
+    end
+  end
+
 end

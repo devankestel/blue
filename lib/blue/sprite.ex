@@ -1,6 +1,18 @@
 defmodule Blue.Color do
     alias Blue.Color
 
+    @type color :: :black | :red | :gray | :blue | :white | :neon_yellow | :green
+    @type rgba_vector :: {integer(), integer(), integer(), integer()}
+    @type t :: %Color{
+      black: rgba_vector(),
+      red: rgba_vector(),
+      green: rgba_vector(),
+      blue: rgba_vector(),
+      white: rgba_vector(),
+      gray: rgba_vector(),
+      neon_yellow: rgba_vector()
+    }
+
     defstruct [
         black: {0, 0, 0, 1},
         red: {255, 0, 0, 1},
@@ -13,6 +25,7 @@ defmodule Blue.Color do
 
     def new(), do: __struct__()
 
+    @spec to_atom(String.t()) :: color()
     def to_atom(color_string) do
       case color_string do
         "black" -> :black
@@ -35,8 +48,9 @@ defmodule Blue.Sprite do
 
     @type grid_coordinate :: {integer, integer}
     @type direction :: :up | :down | :left | :right
-    @type color :: :black | :red
-    @type type :: :none | :item | :protagonist
+    @type color :: :black | :red | :gray | :blue | :white | :neon_yellow | :green
+    @type rgba_vector :: {integer(), integer(), integer(), integer()}
+    @type type :: :none | :item | :protagonist | :wall
     @type t :: %Sprite{grid_coordinate: grid_coordinate(), color: color, type: type}
 
     defstruct [
@@ -70,6 +84,7 @@ defmodule Blue.Sprite do
         end
     end
 
+    @spec from_json(String.t()) :: Sprite.t()
     def from_json(sprite_json_string) do
       %Sprite{
         grid_coordinate: {
@@ -81,6 +96,7 @@ defmodule Blue.Sprite do
       }
     end
 
+    @spec mapify(Sprite.t()) :: String.t()
     def mapify(sprite) do
       {col, row} = sprite.grid_coordinate
         %{
@@ -90,6 +106,7 @@ defmodule Blue.Sprite do
         }
     end
 
+    @spec type_to_atom(String.t()) :: type()
     def type_to_atom(type_string) do
       case type_string do
         "protagonist" -> :protagonist
@@ -99,7 +116,7 @@ defmodule Blue.Sprite do
       end
     end
 
-    @spec get_color_vector(Sprite.t()) :: {integer, integer, integer, integer}
+    @spec get_color_vector(Sprite.t()) :: rgba_vector()
     def get_color_vector(sprite) do
         @colors
         |> Map.get(sprite.color)

@@ -173,9 +173,7 @@ end
 def to_json(canvas, path) do
   canvas_map = Canvas.mapify(canvas)
   canvas_json_string = Jason.encode!(canvas_map)
-  {:ok, file} = File.open(path, [:write])
-  IO.binwrite(file, canvas_json_string)
-  File.close(file)
+  File.write(path, canvas_json_string)
 end
 
 def mapify(canvas) do

@@ -7,7 +7,8 @@ defmodule BlueWeb.BlueLive do
     canvas = create_starting_canvas()
 
     state = %State{
-      canvas: canvas
+      canvas: canvas,
+      filename: "live.json"
     }
 
     {:ok, assign(
@@ -22,6 +23,7 @@ defmodule BlueWeb.BlueLive do
   end
 
   def handle_event("export", _unsigned_params, socket) do
+    IO.inspect(socket.assigns.state.filename)
     Canvas.to_json(socket.assigns.state.canvas, "lib/blue_web/live/json_exports/export_canvas.json")
     {:noreply, socket}
   end
@@ -42,7 +44,8 @@ defmodule BlueWeb.BlueLive do
   def update_state(key_pressed, state) do
     updated_canvas = update_canvas(key_pressed, state.canvas)
     %State{
-      canvas: updated_canvas
+      canvas: updated_canvas,
+      filename: state.filename,
     }
   end
 
@@ -110,6 +113,9 @@ defmodule BlueWeb.BlueLive do
     <div>
     <h1 class="text-4xl font-bold text-center">The count is: <%= @val %></h1>
     <p class="text-center">
+    <form>
+    <input type="text" value={@state.filename} />
+    </form>
     <button phx-click="export">Export to JSON</button>
     </p>
     <div phx-window-keydown="keypress">

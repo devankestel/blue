@@ -19,3 +19,4 @@
 * [ ] "Remove Sprite" button on `live.ex`
 * [ ] `handle_remove_sprite` button on `live.ex`
 * [ ] refactor behavior from `live.ex` to `game?.ex` 
+* [ ] Blue mode

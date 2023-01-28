@@ -8,7 +8,13 @@ defmodule BlueWeb.BlueLive do
 
     state = %State{
       canvas: canvas,
-      filename: "live.json"
+      filename: "live.json",
+      designer_mode: false,
+      add_protagonist_sprite: false,
+      add_red_item_sprite: false,
+      add_blue_item_sprite: false,
+      add_wall_sprite: false,
+      delete_sprite: false,
     }
 
     {:ok, assign(
@@ -26,6 +32,100 @@ defmodule BlueWeb.BlueLive do
     IO.inspect(socket.assigns.state.filename)
     Canvas.to_json(socket.assigns.state.canvas, "lib/blue_web/live/json_exports/export_canvas.json")
     {:noreply, socket}
+  end
+
+  def handle_event("designer_mode", _params, socket) do
+    IO.inspect(socket.assigns.state)
+    {:noreply,
+    assign(
+      socket,
+      state: toggle_designer_mode(socket.assigns.state)
+      )
+    }
+  end
+
+  def handle_event("add_protagonist_sprite", _params, socket) do
+    IO.inspect(socket.assigns.state)
+    {:noreply,
+    assign(
+      socket,
+      state: %{
+        socket.assigns.state | add_protagonist_sprite: toggle_designer_mode_button(socket.assigns.state, socket.assigns.state.add_protagonist_sprite)
+      }
+      )
+    }
+  end
+  def handle_event("add_blue_item_sprite", _params, socket) do
+    IO.inspect(socket.assigns.state)
+    {:noreply,
+    assign(
+      socket,
+      state: %{
+        socket.assigns.state | add_blue_item_sprite: toggle_designer_mode_button(socket.assigns.state, socket.assigns.state.add_blue_item_sprite)
+      }
+      )
+    }
+  end
+  def handle_event("add_red_item_sprite", _params, socket) do
+    IO.inspect(socket.assigns.state)
+    {:noreply,
+    assign(
+      socket,
+      state: %{
+        socket.assigns.state | add_red_item_sprite: toggle_designer_mode_button(socket.assigns.state, socket.assigns.state.add_red_item_sprite)
+      }
+      )
+    }
+  end
+  def handle_event("add_wall_sprite", _params, socket) do
+    IO.inspect(socket.assigns.state)
+    {:noreply,
+    assign(
+      socket,
+      state: %{
+        socket.assigns.state | add_wall_sprite: toggle_designer_mode_button(socket.assigns.state, socket.assigns.state.add_wall_sprite)
+      }
+      )
+    }
+  end
+  def handle_event("delete_sprite", _params, socket) do
+    IO.inspect(socket.assigns.state)
+    {:noreply,
+    assign(
+      socket,
+      state: %{
+        socket.assigns.state | delete_sprite: toggle_designer_mode_button(socket.assigns.state, socket.assigns.state.delete_sprite)
+      }
+      )
+    }
+  end
+  def toggle_designer_mode(state) do
+    case state.designer_mode do
+      true -> toggle_designer_mode_off(state)
+      false -> %{state | designer_mode: true}
+    end
+  end
+
+  def toggle_designer_mode_off(state) do
+    state = %{state | designer_mode: false }
+    state = %{state | add_protagonist_sprite: false }
+    state = %{state | add_blue_item_sprite: false }
+    state = %{state | add_red_item_sprite: false }
+    state = %{state | add_wall_sprite: false }
+    %{state | delete_sprite: false }
+  end
+  def toggle_designer_mode_button(state, current_value) do
+    case state.designer_mode do
+      true -> toggle(current_value)
+      false -> current_value
+    end
+  end
+
+  def toggle(current_value) do
+    case current_value do
+      true -> false
+      false -> true
+    end
   end
 
   def handle_event("keypress", params, socket) do
@@ -117,6 +217,12 @@ defmodule BlueWeb.BlueLive do
     <input type="text" value={@state.filename} />
     </form>
     <button phx-click="export">Export to JSON</button>
+    <button phx-click="designer_mode">Designer mode: <%= @state.designer_mode %></button>
+    <button phx-click="add_protagonist_sprite">Add protagonist sprite <%= @state.add_protagonist_sprite %></button>
+    <button phx-click="add_red_item_sprite">Add red item sprite <%= @state.add_red_item_sprite %></button>
+    <button phx-click="add_blue_item_sprite">Add blue item sprite <%= @state.add_blue_item_sprite %></button>
+    <button phx-click="add_wall_sprite">Add wall sprite <%= @state.add_wall_sprite %></button>
+    <button phx-click="delete_sprite">Delete sprite <%= @state.delete_sprite %></button>
     </p>
     <div phx-window-keydown="keypress">
     <%= raw Canvas.render(@state.canvas) %>

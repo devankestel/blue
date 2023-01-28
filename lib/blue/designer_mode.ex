@@ -70,4 +70,13 @@ defmodule Blue.DesignerMode do
     end
   end
 
+  def toggle_button(designer_mode, button_name) do
+    case designer_mode.on do
+      true -> %{
+        designer_mode |
+        buttons: DesignerModeButtons.toggle(designer_mode.buttons, button_name)
+      }
+      false -> designer_mode
+    end
+  end
 end

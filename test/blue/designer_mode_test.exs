@@ -58,6 +58,48 @@ defmodule Blue.DesignerModeTest do
     end
   end
 
+  describe "DesignerMode.toggle_button" do
+    test "it does not toggle a button when designer mode is off" do
+      designer_mode = DesignerMode.new()
+      button_name = :add_protagonist_sprite
+
+      updated_designer_mode = DesignerMode.toggle_button(designer_mode, button_name)
+
+      assert updated_designer_mode == designer_mode
+    end
+    test "it toggles on a button when designer mode is true" do
+      buttons = %DesignerModeButtons{
+        add_protagonist_sprite: false,
+        add_red_item_sprite: true,
+        add_blue_item_sprite: false,
+        add_wall_sprite: false,
+        delete_sprite: false,
+      }
+
+      designer_mode = %DesignerMode{
+        on: true,
+        buttons: buttons
+      }
+
+      expected_buttons = %DesignerModeButtons{
+        add_protagonist_sprite: true,
+        add_red_item_sprite: false,
+        add_blue_item_sprite: false,
+        add_wall_sprite: false,
+        delete_sprite: false,
+      }
+
+      expected_designer_mode = %DesignerMode{
+        on: true,
+        buttons: expected_buttons,
+      }
+
+      updated_designer_mode = DesignerMode.toggle_button(designer_mode, :add_protagonist_sprite)
+
+      assert updated_designer_mode == expected_designer_mode
+    end
+  end
+
   describe "DesignerModeButtons.toggle/2" do
     test "it toggles a button off" do
       buttons = DesignerModeButtons.new()

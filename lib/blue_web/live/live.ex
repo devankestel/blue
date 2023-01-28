@@ -1,21 +1,12 @@
 defmodule BlueWeb.BlueLive do
   use BlueWeb, :live_view
 
-  alias Blue.{Canvas, State}
+  alias Blue.{Canvas, State, DesignerMode}
 
   def mount(_params, _session, socket) do
-    canvas = create_starting_canvas()
 
-    state = %State{
-      canvas: canvas,
-      filename: "live.json",
-      designer_mode: false,
-      add_protagonist_sprite: false,
-      add_red_item_sprite: false,
-      add_blue_item_sprite: false,
-      add_wall_sprite: false,
-      delete_sprite: false,
-    }
+    state = State.new()
+    state = %{ state | canvas: create_starting_canvas()}
 
     {:ok, assign(
       socket,
@@ -39,93 +30,97 @@ defmodule BlueWeb.BlueLive do
     {:noreply,
     assign(
       socket,
-      state: toggle_designer_mode(socket.assigns.state)
-      )
+      state: %{
+        socket.assigns.state |
+        designer_mode: DesignerMode.toggle(socket.assigns.state.designer_mode)
+      }
+    )
     }
   end
 
   def handle_event("add_protagonist_sprite", _params, socket) do
     IO.inspect(socket.assigns.state)
+    designer_mode = socket.assigns.state.designer_mode
     {:noreply,
     assign(
       socket,
       state: %{
-        socket.assigns.state | add_protagonist_sprite: toggle_designer_mode_button(socket.assigns.state, socket.assigns.state.add_protagonist_sprite)
+        socket.assigns.state |
+        designer_mode: DesignerMode.toggle_button(
+          designer_mode,
+          :add_protagonist_sprite
+          )
       }
       )
     }
   end
+
   def handle_event("add_blue_item_sprite", _params, socket) do
     IO.inspect(socket.assigns.state)
+    designer_mode = socket.assigns.state.designer_mode
     {:noreply,
     assign(
       socket,
       state: %{
-        socket.assigns.state | add_blue_item_sprite: toggle_designer_mode_button(socket.assigns.state, socket.assigns.state.add_blue_item_sprite)
+        socket.assigns.state |
+        designer_mode: DesignerMode.toggle_button(
+          designer_mode,
+          :add_blue_item_sprite
+          )
       }
       )
     }
   end
+
   def handle_event("add_red_item_sprite", _params, socket) do
     IO.inspect(socket.assigns.state)
+    designer_mode = socket.assigns.state.designer_mode
     {:noreply,
     assign(
       socket,
       state: %{
-        socket.assigns.state | add_red_item_sprite: toggle_designer_mode_button(socket.assigns.state, socket.assigns.state.add_red_item_sprite)
+        socket.assigns.state |
+        designer_mode: DesignerMode.toggle_button(
+          designer_mode,
+          :add_red_item_sprite
+          )
       }
       )
     }
   end
+
   def handle_event("add_wall_sprite", _params, socket) do
     IO.inspect(socket.assigns.state)
+    designer_mode = socket.assigns.state.designer_mode
     {:noreply,
     assign(
       socket,
       state: %{
-        socket.assigns.state | add_wall_sprite: toggle_designer_mode_button(socket.assigns.state, socket.assigns.state.add_wall_sprite)
+        socket.assigns.state |
+        designer_mode: DesignerMode.toggle_button(
+          designer_mode,
+          :add_wall_sprite
+          )
       }
       )
     }
   end
+
   def handle_event("delete_sprite", _params, socket) do
     IO.inspect(socket.assigns.state)
+    designer_mode = socket.assigns.state.designer_mode
     {:noreply,
     assign(
       socket,
       state: %{
-        socket.assigns.state | delete_sprite: toggle_designer_mode_button(socket.assigns.state, socket.assigns.state.delete_sprite)
+        socket.assigns.state |
+        designer_mode: DesignerMode.toggle_button(
+          designer_mode,
+          :delete_sprite
+          )
       }
       )
     }
-  end
-  def toggle_designer_mode(state) do
-    case state.designer_mode do
-      true -> toggle_designer_mode_off(state)
-      false -> %{state | designer_mode: true}
-    end
-  end
-
-  def toggle_designer_mode_off(state) do
-    state = %{state | designer_mode: false }
-    state = %{state | add_protagonist_sprite: false }
-    state = %{state | add_blue_item_sprite: false }
-    state = %{state | add_red_item_sprite: false }
-    state = %{state | add_wall_sprite: false }
-    %{state | delete_sprite: false }
-  end
-  def toggle_designer_mode_button(state, current_value) do
-    case state.designer_mode do
-      true -> toggle(current_value)
-      false -> current_value
-    end
-  end
-
-  def toggle(current_value) do
-    case current_value do
-      true -> false
-      false -> true
-    end
   end
 
   def handle_event("keypress", params, socket) do
@@ -217,12 +212,12 @@ defmodule BlueWeb.BlueLive do
     <input type="text" value={@state.filename} />
     </form>
     <button phx-click="export">Export to JSON</button>
-    <button phx-click="designer_mode">Designer mode: <%= @state.designer_mode %></button>
-    <button phx-click="add_protagonist_sprite">Add protagonist sprite <%= @state.add_protagonist_sprite %></button>
-    <button phx-click="add_red_item_sprite">Add red item sprite <%= @state.add_red_item_sprite %></button>
-    <button phx-click="add_blue_item_sprite">Add blue item sprite <%= @state.add_blue_item_sprite %></button>
-    <button phx-click="add_wall_sprite">Add wall sprite <%= @state.add_wall_sprite %></button>
-    <button phx-click="delete_sprite">Delete sprite <%= @state.delete_sprite %></button>
+    <button phx-click="designer_mode">Designer mode: <%= @state.designer_mode.on %></button>
+    <button phx-click="add_protagonist_sprite">Add protagonist sprite <%= @state.designer_mode.buttons.add_protagonist_sprite %></button>
+    <button phx-click="add_red_item_sprite">Add red item sprite <%= @state.designer_mode.buttons.add_red_item_sprite %></button>
+    <button phx-click="add_blue_item_sprite">Add blue item sprite <%= @state.designer_mode.buttons.add_blue_item_sprite %></button>
+    <button phx-click="add_wall_sprite">Add wall sprite <%= @state.designer_mode.buttons.add_wall_sprite %></button>
+    <button phx-click="delete_sprite">Delete sprite <%= @state.designer_mode.buttons.delete_sprite %></button>
     </p>
     <div phx-window-keydown="keypress">
     <%= raw Canvas.render(@state.canvas) %>

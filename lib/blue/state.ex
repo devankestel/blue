@@ -1,15 +1,10 @@
 defmodule Blue.State do
-  alias Blue.Canvas
+  alias Blue.{Canvas, DesignerMode}
 
   defstruct [
       canvas: Canvas.new(),
-      filename: "state.json",
-      designer_mode: false,
-      add_protagonist_sprite: false,
-      add_red_item_sprite: false,
-      add_blue_item_sprite: false,
-      add_wall_sprite: false,
-      delete_sprite: false,
+      filename: "live.json",
+      designer_mode: DesignerMode.new()
   ]
 
   def new(), do: __struct__()

@@ -203,27 +203,4 @@ defmodule BlueWeb.BlueLive do
     Canvas.from_json("test/blue/fixtures/example_canvas.json")
   end
 
-  def render(assigns) do
-    ~H"""
-    <div>
-    <h1 class="text-4xl font-bold text-center">The count is: <%= @val %></h1>
-    <p class="text-center">
-    <form>
-    <input type="text" value={@state.filename} />
-    </form>
-    <button phx-click="export">Export to JSON</button>
-    <button phx-click="designer_mode">Designer mode: <%= @state.designer_mode.on %></button>
-    <button phx-click="add_protagonist_sprite">Add protagonist sprite <%= @state.designer_mode.buttons.add_protagonist_sprite %></button>
-    <button phx-click="add_red_item_sprite">Add red item sprite <%= @state.designer_mode.buttons.add_red_item_sprite %></button>
-    <button phx-click="add_blue_item_sprite">Add blue item sprite <%= @state.designer_mode.buttons.add_blue_item_sprite %></button>
-    <button phx-click="add_wall_sprite">Add wall sprite <%= @state.designer_mode.buttons.add_wall_sprite %></button>
-    <button phx-click="delete_sprite">Delete sprite <%= @state.designer_mode.buttons.delete_sprite %></button>
-    </p>
-    <div phx-window-keydown="keypress">
-    <%= raw Canvas.render(@state.canvas) %>
-    </div>
-    </div>
-    """
-  end
-
 end

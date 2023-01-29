@@ -1,7 +1,7 @@
 defmodule BlueWeb.BlueLive do
   use BlueWeb, :live_view
 
-  alias Blue.{Canvas, State, DesignerMode}
+  alias Blue.{Canvas, Sprite, State, DesignerMode}
 
   def mount(_params, _session, socket) do
 
@@ -33,6 +33,29 @@ defmodule BlueWeb.BlueLive do
       state: %{
         socket.assigns.state |
         designer_mode: DesignerMode.toggle(socket.assigns.state.designer_mode)
+      }
+    )
+    }
+  end
+
+  def handle_event("edit_canvas", params, socket) do
+    IO.inspect(socket.assigns.state)
+    IO.puts("In edit_canvas ")
+    IO.inspect(params)
+    new_sprite = %Sprite{
+      color: :green,
+      grid_coordinate: {2, 2},
+      type: :none
+    }
+    sprites = socket.assigns.state.canvas.sprites
+    sprites = [new_sprite | sprites]
+    IO.inspect(sprites)
+    {:noreply,
+    assign(
+      socket,
+      state: %{
+        socket.assigns.state |
+        canvas: %{socket.assigns.state.canvas | sprites: sprites}
       }
     )
     }
@@ -124,6 +147,7 @@ defmodule BlueWeb.BlueLive do
   end
 
   def handle_event("keypress", params, socket) do
+    IO.puts("in keypress")
     IO.inspect(params)
     IO.inspect(socket)
     IO.inspect(socket.assigns.state)

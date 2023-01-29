@@ -18,3 +18,5 @@
 
 * [Enum map to update element](https://stackoverflow.com/questions/66696409/how-to-replace-elements-in-an-array-in-elixir)
 * https://stackoverflow.com/questions/70804191/cannot-input-text-in-text-field-from-livecomponent
+
+* [SVG click coordinates](https://www.poeticoding.com/liveview-click-event-and-offsetx-offsety-coordinates/)

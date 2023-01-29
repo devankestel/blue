@@ -12,7 +12,7 @@
         <button phx-click="add_wall_sprite">Add wall sprite <%= @state.designer_mode.buttons.add_wall_sprite %></button>
         <button phx-click="delete_sprite">Delete sprite <%= @state.designer_mode.buttons.delete_sprite %></button>
         </p>
-        <div phx-window-keydown="keypress">
+        <div phx-window-keydown="keypress" phx-click="edit_canvas">
             <%= raw Canvas.render(@state.canvas) %>
         </div>
     </div>

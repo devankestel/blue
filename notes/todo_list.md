@@ -1,4 +1,5 @@
 * Designer Mode
+    * [ ] add any sort of sprite to canvas, not in designer mode
     * [ ] add protagonist sprite to canvas
     * [ ] delete sprite from canvas
     * [ ] add wall sprite to canvas

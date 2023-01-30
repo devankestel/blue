@@ -2,7 +2,7 @@ defmodule BlueWeb.BlueLive do
   use BlueWeb, :live_view
 
   alias Blue.{Canvas, Sprite, State, DesignerMode}
-  alias BlueWeb.HeroComponent
+  alias BlueWeb.{HeroComponent, DesignerModeComponent}
 
   def mount(_params, _session, socket) do
 

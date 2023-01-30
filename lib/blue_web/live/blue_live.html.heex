@@ -1,6 +1,7 @@
     <div>
         <h1 class="text-4xl font-bold text-center">The count is: <%= @val %></h1>
         <p class="text-center">
+        <.live_component module={HeroComponent} id="hero" state={@state} />
         <form>
             <input type="text" value={@state.filename} />
         </form>
@@ -12,7 +13,7 @@
         <button phx-click="add_wall_sprite">Add wall sprite <%= @state.designer_mode.buttons.add_wall_sprite %></button>
         <button phx-click="delete_sprite">Delete sprite <%= @state.designer_mode.buttons.delete_sprite %></button>
         </p>
-        <div phx-window-keydown="keypress" phx-click="edit_canvas">
+        <div id="myself" phx-window-keydown="keypress" phx-click="edit_canvas" phx-target="#myself" >
             <%= raw Canvas.render(@state.canvas) %>
         </div>
     </div>

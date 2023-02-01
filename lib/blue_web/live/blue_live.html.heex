@@ -13,7 +13,5 @@
             <.live_component module={DesignerModeComponent} id="designer_mode" state={@state} />
         <% end %>
         </p>
-        <div id="myself" phx-window-keydown="keypress" phx-click="edit_canvas" phx-target="#myself" >
-            <%= raw Canvas.render(@state.canvas) %>
-        </div>
+        <.live_component module={SvgComponent} id="svg_component" state={@state} />
     </div>

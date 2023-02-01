@@ -39,28 +39,7 @@ defmodule BlueWeb.BlueLive do
     }
   end
 
-  def handle_event("edit_canvas", params, socket) do
-    IO.inspect(socket.assigns.state)
-    IO.puts("In edit_canvas ")
-    IO.inspect(params)
-    new_sprite = %Sprite{
-      color: :green,
-      grid_coordinate: {2, 2},
-      type: :none
-    }
-    sprites = socket.assigns.state.canvas.sprites
-    sprites = [new_sprite | sprites]
-    IO.inspect(sprites)
-    {:noreply,
-    assign(
-      socket,
-      state: %{
-        socket.assigns.state |
-        canvas: %{socket.assigns.state.canvas | sprites: sprites}
-      }
-    )
-    }
-  end
+
 
   def handle_event("add_protagonist_sprite", _params, socket) do
     IO.inspect(socket.assigns.state)

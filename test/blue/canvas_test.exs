@@ -397,7 +397,7 @@ defmodule Blue.CanvasTest do
 
       expected_svg =
         """
-        <svg
+        <svg phx-click="svg_click"
         version="1.0"
         style="background-color: #F8F8F8"
         id="Layer_1"

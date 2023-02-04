@@ -6,14 +6,14 @@ defmodule BlueWeb.BlueLiveTest do
 
   describe "mount/3" do
 
-    test "assigns params to socket" do
+    test "assigns to socket" do
       socket = %Phoenix.LiveView.Socket{}
       params = %{}
       session = nil
 
       {:ok, updated_socket} = BlueLive.mount(params, session, socket)
 
-      updated_canvas = updated_socket.assigns.canvas
+      updated_canvas = updated_socket.assigns.state.canvas
       assert updated_canvas.width == 200
       assert updated_canvas.height == 400
       assert updated_canvas.grid_size == 20

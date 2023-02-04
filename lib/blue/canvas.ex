@@ -111,6 +111,13 @@ def has_item?(canvas) do
   canvas.sprites |> Enum.count >= 2
 end
 
+def add_sprite(canvas, sprite) do
+  sprites = canvas.sprites
+    |> List.insert_at(-1, sprite)
+
+  %{canvas | sprites: sprites}
+end
+
 def remove_sprite(canvas, sprite) do
   filtered_sprites =
     canvas.sprites |>
@@ -173,7 +180,7 @@ end
 def to_json(canvas, path) do
   canvas_map = Canvas.mapify(canvas)
   canvas_json_string = Jason.encode!(canvas_map, pretty: true)
-  IO.inspect(canvas_json_string)
+  #IO.inspect(canvas_json_string)
   File.write(path, canvas_json_string)
 end
 

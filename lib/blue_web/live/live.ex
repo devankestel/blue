@@ -18,13 +18,11 @@ defmodule BlueWeb.BlueLive do
       )}
   end
 
-  def handle_event("svg_click", event, socket) do
+  def handle_event("svg_click", %{"offsetX" => x, "offsetY" => y} = _event, socket) do
 
     IO.inspect(socket.assigns.state)
     IO.puts("In svg_click")
-    IO.inspect(event)
-    x = event |> Map.get("offsetX")
-    y = event |> Map.get("offsetY")
+    IO.puts("x #{x} y #{y}")
 
     grid_coordinate = Svg.get_grid_coordinate(
       {x, y},
@@ -36,15 +34,16 @@ defmodule BlueWeb.BlueLive do
       grid_coordinate: grid_coordinate,
       type: :none
     }
-    sprites = socket.assigns.state.canvas.sprites
-    sprites = [new_sprite | sprites]
-    IO.inspect(sprites)
+
     {:noreply,
     assign(
       socket,
       state: %{
         socket.assigns.state |
-        canvas: %{socket.assigns.state.canvas | sprites: sprites}
+        canvas: Canvas.add_sprite(
+          socket.assigns.state.canvas,
+          new_sprite
+        )
       }
     )
     }

@@ -241,6 +241,31 @@ defmodule Blue.CanvasTest do
     end
   end
 
+  describe "add_sprite/2" do
+    test "add sprite" do
+      canvas = Canvas.new()
+      sprite1 = Sprite.new()
+      sprite2 = Sprite.new()
+      sprite2 = %{sprite2 | grid_coordinate: {5, 5}}
+      sprite2 = %{sprite2 | color: :red}
+      sprite3 = Sprite.new()
+      sprite3 = %{sprite3 | grid_coordinate: {6, 7}}
+      sprite3 = %{sprite3 | color: :red}
+      sprite4 = Sprite.new()
+      sprite4 = %{sprite4 | grid_coordinate: {8, 8}}
+      sprite4 = %{sprite4 | color: :green}
+
+
+      canvas = %{canvas | sprites: [sprite1, sprite2, sprite3]}
+
+      expected_canvas = %{canvas | sprites: [sprite1, sprite2, sprite3, sprite4]}
+
+      updated_canvas = Canvas.add_sprite(canvas, sprite4)
+
+      assert updated_canvas == expected_canvas
+    end
+  end
+
   describe "has adjacent sprite/2" do
     test "has adjacent sprite to the left" do
       protagonist_sprite = Sprite.new()

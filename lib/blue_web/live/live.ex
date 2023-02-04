@@ -1,7 +1,7 @@
 defmodule BlueWeb.BlueLive do
   use BlueWeb, :live_view
 
-  alias Blue.{Canvas, Sprite, State, DesignerMode}
+  alias Blue.{Canvas, Sprite, State, Svg, DesignerMode}
   alias BlueWeb.{HeroComponent, DesignerModeComponent, SvgComponent}
 
   def mount(params, session, socket) do
@@ -23,8 +23,31 @@ defmodule BlueWeb.BlueLive do
     IO.inspect(socket.assigns.state)
     IO.puts("In svg_click")
     IO.inspect(event)
+    x = event |> Map.get("offsetX")
+    y = event |> Map.get("offsetY")
 
-    {:noreply, socket}
+    grid_coordinate = Svg.get_grid_coordinate(
+      {x, y},
+      socket.assigns.state.canvas
+    )
+
+    new_sprite = %Sprite{
+      color: :green,
+      grid_coordinate: grid_coordinate,
+      type: :none
+    }
+    sprites = socket.assigns.state.canvas.sprites
+    sprites = [new_sprite | sprites]
+    IO.inspect(sprites)
+    {:noreply,
+    assign(
+      socket,
+      state: %{
+        socket.assigns.state |
+        canvas: %{socket.assigns.state.canvas | sprites: sprites}
+      }
+    )
+    }
   end
 
   def handle_event("inc", _unsigned_params, socket) do

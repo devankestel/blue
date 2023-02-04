@@ -36,7 +36,13 @@ defmodule Blue.Svg do
 
   def get_grid_coordinate(coordinate, canvas) do
     {x, y} = coordinate
-    {x/canvas.grid_size, y/canvas.grid_size}
+    col = (x/canvas.grid_size)
+    |> Float.ceil()
+
+    row = (y/canvas.grid_size)
+    |> Float.ceil()
+
+    {col, row}
   end
 
 end

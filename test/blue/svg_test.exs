@@ -25,7 +25,7 @@ defmodule Blue.SvgTest do
     end
   end
 
-  describe "get_coordinate/1" do
+  describe "get_coordinate/2" do
     test "it gets an svg coordinate from a grid_coordinate" do
       canvas = Canvas.new()
       sprite = Sprite.new()
@@ -40,12 +40,24 @@ defmodule Blue.SvgTest do
     end
   end
 
+  describe "get_grid_coordinate/2" do
+    test "it gets an svg coordinate from a grid_coordinate" do
+      canvas = Canvas.new()
+      svg_coordinate = {25, 25}
+      expected_grid_coordinate = {2, 2}
+
+      grid_coordinate = Svg.get_grid_coordinate(svg_coordinate, canvas)
+
+      assert grid_coordinate == expected_grid_coordinate
+    end
+  end
+
   describe "header/1" do
     test "creates svg header based on canvas params" do
       canvas = Canvas.new()
       expected_header =
         """
-        <svg
+        <svg phx-click="svg_click"
         version="1.0"
         style="background-color: #F8F8F8"
         id="Layer_1"

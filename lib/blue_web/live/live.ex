@@ -4,16 +4,27 @@ defmodule BlueWeb.BlueLive do
   alias Blue.{Canvas, Sprite, State, DesignerMode}
   alias BlueWeb.{HeroComponent, DesignerModeComponent, SvgComponent}
 
-  def mount(_params, _session, socket) do
+  def mount(params, session, socket) do
 
     state = State.new()
     state = %{ state | canvas: create_starting_canvas()}
+    IO.inspect(params)
+    IO.inspect(session)
 
     {:ok, assign(
       socket,
       val: 0,
       state: state
       )}
+  end
+
+  def handle_event("svg_click", event, socket) do
+
+    IO.inspect(socket.assigns.state)
+    IO.puts("In svg_click")
+    IO.inspect(event)
+
+    {:noreply, socket}
   end
 
   def handle_event("inc", _unsigned_params, socket) do

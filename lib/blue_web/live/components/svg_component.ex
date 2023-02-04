@@ -28,4 +28,13 @@ defmodule BlueWeb.SvgComponent do
     )
     }
   end
+
+  def handle_event("svg_click", params, socket) do
+
+    IO.inspect(socket.assigns.state)
+    IO.puts("In svg_click")
+    IO.inspect(params)
+
+    {:noreply, socket}
+  end
 end

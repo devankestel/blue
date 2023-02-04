@@ -3,7 +3,7 @@ defmodule Blue.Svg do
 
   def header(canvas) do
     """
-    <svg
+    <svg phx-click="svg_click"
     version="1.0"
     style="background-color: #F8F8F8"
     id="Layer_1"
@@ -32,6 +32,11 @@ defmodule Blue.Svg do
   def get_coordinate(canvas, sprite) do
     {col, row} = sprite.grid_coordinate
     {(col-1)*canvas.grid_size, (row-1)*canvas.grid_size}
+  end
+
+  def get_grid_coordinate(coordinate, canvas) do
+    {x, y} = coordinate
+    {x/canvas.grid_size, y/canvas.grid_size}
   end
 
 end

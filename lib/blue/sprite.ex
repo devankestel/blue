@@ -39,6 +39,21 @@ defmodule Blue.Color do
     end
 end
 
+defmodule Blue.Direction do
+  @type direction :: :left | :right | :up | :down
+
+  @spec from_key_to_atom(String.t()) :: direction
+  def from_key_to_atom(key_pressed) do
+    case key_pressed do
+      "ArrowLeft" -> :left
+      "ArrowRight" -> :right
+      "ArrowUp" -> :up
+      "ArrowDown" -> :down
+      _ -> :nomatch
+    end
+  end
+end
+
 defmodule Blue.Sprite do
 
     alias Blue.Sprite

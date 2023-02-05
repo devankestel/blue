@@ -1,7 +1,7 @@
 defmodule Blue.Action do
 
   alias Blue.DesignerModeButtons
-  alias Blue.{Canvas, Sprite, Svg}
+  alias Blue.{Canvas, Direction, Sprite, Svg}
 
   # @spec update_canvas_designer_mode(Svg.coordinate.t(), State.t()) :: Canvas.t()
   def update_canvas_designer_mode({x, y}, state) do
@@ -71,7 +71,7 @@ defmodule Blue.Action do
 
   # @spec update_canvas(String.t(), Canvas.t()) :: Canvas.t()
   def update_canvas(key_pressed, canvas) do
-    direction = get_direction(key_pressed)
+    direction = Direction.from_key_to_atom(key_pressed)
     case direction do
       :up -> move_protagonist(:up, canvas)
       :down -> move_protagonist(:down, canvas)
@@ -119,14 +119,4 @@ defmodule Blue.Action do
     canvas
   end
 
-  # @spec get_direction(String.t()) :: Sprite.direction.t()
-  def get_direction(key_pressed) do
-    case key_pressed do
-      "ArrowLeft" -> :left
-      "ArrowRight" -> :right
-      "ArrowUp" -> :up
-      "ArrowDown" -> :down
-      _ -> :nomatch
-    end
-  end
 end

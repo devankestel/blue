@@ -219,6 +219,28 @@ defmodule Blue.CanvasTest do
     end
   end
 
+  describe "get_sprite_by_grid_coordinate/2" do
+    test "gets items from sprites list" do
+      canvas = Canvas.new()
+      protagonist_sprite = Sprite.new()
+      protagonist_sprite = %{protagonist_sprite | type: :protagonist}
+      item1_sprite = Sprite.new()
+      item1_sprite = %{item1_sprite | grid_coordinate: {5, 5}}
+      item1_sprite = %{item1_sprite | color: :red}
+      item1_sprite = %{item1_sprite | type: :item}
+      item2_sprite = Sprite.new()
+      item2_sprite = %{item2_sprite | grid_coordinate: {6, 7}}
+      item2_sprite = %{item2_sprite | color: :red}
+      item2_sprite = %{item2_sprite | type: :item}
+
+      canvas = %{canvas | sprites: [protagonist_sprite, item1_sprite, item2_sprite]}
+
+      sprite_at_grid_coordinate = Canvas.get_sprite_by_grid_coordinate(canvas, item1_sprite.grid_coordinate)
+
+      assert sprite_at_grid_coordinate == item1_sprite
+    end
+  end
+
   describe "remove_sprite/2" do
     test "remove the second sprite" do
       canvas = Canvas.new()

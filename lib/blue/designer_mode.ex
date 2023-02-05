@@ -21,6 +21,17 @@ defmodule Blue.DesignerModeButtons do
     end
   end
 
+  def get_true_button(buttons) do
+    [{true_button, _} | _] = buttons
+    |> Map.from_struct()
+    |> Enum.filter(
+      fn {_k, v} ->
+        v
+      end
+    )
+    true_button
+  end
+
   def toggle(buttons, button_name) do
     button_value = buttons |> Map.get(button_name)
     case button_value do

@@ -4,7 +4,10 @@ defmodule Blue.Event do
   alias Phoenix.Socket
 
   def svg_click(%{"offsetX" => x, "offsetY" => y} = _event, socket) do
+    IO.puts("In svg_click")
     IO.inspect(socket.assigns.state)
+    IO.puts("x #{x} y #{y}")
+
     {:noreply,
     Socket.assign(
       socket,
@@ -67,7 +70,13 @@ defmodule Blue.Event do
     {:noreply,
     Socket.assign(
       socket,
-      state: Action.update_state(key_pressed, socket.assigns.state)
+      state: %{
+        socket.assigns.state |
+        canvas: Action.update_canvas(
+          key_pressed,
+          socket.assigns.state.canvas
+        )
+      }
     )
     }
   end

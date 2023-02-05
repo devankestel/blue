@@ -1,21 +1,12 @@
 defmodule Blue.Action do
 
-  alias Blue.{Canvas, Sprite, State, Svg}
+  alias Blue.DesignerModeButtons
+  alias Blue.{Canvas, Sprite, Svg}
 
   def update_canvas_designer_mode({x, y}, state) do
-    IO.inspect(state)
-    IO.puts("In svg_click")
-    IO.puts("x #{x} y #{y}")
 
-    designer_mode_buttons = state.designer_mode.buttons
+    true_button = DesignerModeButtons.get_true_button(state.designer_mode.buttons)
 
-    [{true_button, _} | _] = designer_mode_buttons
-      |> Map.from_struct()
-      |> Enum.filter(
-        fn {_k, v} ->
-          v
-        end
-    )
     IO.inspect(true_button)
 
     grid_coordinate = Svg.get_grid_coordinate(
@@ -71,14 +62,6 @@ defmodule Blue.Action do
       |> Canvas.get_sprites_by_type(:protagonist)
     IO.inspect(protagonist)
     Canvas.remove_sprite(canvas, protagonist)
-  end
-
-  def update_state(key_pressed, state) do
-    updated_canvas = update_canvas(key_pressed, state.canvas)
-    %State{
-      canvas: updated_canvas,
-      filename: state.filename,
-    }
   end
 
   def update_canvas(key_pressed, canvas) do

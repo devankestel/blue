@@ -10,6 +10,17 @@ defmodule Blue.DesignerModeButtons do
 
   def new(), do: __struct__()
 
+  def to_atom(button_name) do
+    case button_name do
+      "add_protagonist_sprite" -> :add_protagonist_sprite
+      "add_red_item_sprite" -> :add_red_item_sprite
+      "add_blue_item_sprite" -> :add_blue_item_sprite
+      "add_wall_sprite" -> :add_wall_sprite
+      "delete_sprite" -> :delete_sprite
+      _ -> :no_match
+    end
+  end
+
   def toggle(buttons, button_name) do
     button_value = buttons |> Map.get(button_name)
     case button_value do

@@ -118,4 +118,10 @@ defmodule BlueWeb.BlueLiveTest do
     end
   end
 
+  describe "handle_event/3" do
+    test "it handles the desired event" do
+
+    end
+  end
+
 end

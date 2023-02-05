@@ -45,6 +45,16 @@ def get_sprites_by_type(canvas, type) do
     )
 end
 
+def get_sprite_by_grid_coordinate(canvas, grid_coordinate) do
+  [sprite | _] = canvas.sprites
+    |> Enum.filter(
+      fn s ->
+        s.grid_coordinate == grid_coordinate
+      end
+    )
+  sprite
+end
+
 def can_collect_item?(
   direction,
   protagonist_grid_coordinate,

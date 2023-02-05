@@ -19,20 +19,90 @@ defmodule BlueWeb.BlueLive do
   end
 
   def handle_event("svg_click", %{"offsetX" => x, "offsetY" => y} = _event, socket) do
+    case socket.assigns.state.designer_mode.on do
+      true -> update_canvas_designer_mode({x, y}, socket)
+      false -> {:noreply, socket}
+    end
+  end
 
+  def update_canvas_designer_mode({x, y}, socket) do
     IO.inspect(socket.assigns.state)
     IO.puts("In svg_click")
     IO.puts("x #{x} y #{y}")
+
+    designer_mode_buttons = socket.assigns.state.designer_mode.buttons
+    [{true_button, _} | _] = designer_mode_buttons
+      |> Map.from_struct()
+      |> Enum.filter(
+        fn {_k, v} ->
+          v
+        end
+    )
+    IO.inspect(true_button)
 
     grid_coordinate = Svg.get_grid_coordinate(
       {x, y},
       socket.assigns.state.canvas
     )
 
+    IO.inspect(grid_coordinate)
+
+    canvas = socket.assigns.state.canvas
+
+    case true_button do
+      :add_protagonist_sprite -> add_protagonist_sprite(grid_coordinate, :black, canvas, socket)
+      :add_red_item_sprite -> add_sprite(grid_coordinate, :item, :red, canvas, socket)
+      :add_blue_item_sprite -> add_sprite(grid_coordinate, :item, :blue, canvas, socket)
+      :add_wall_sprite -> add_sprite(grid_coordinate, :wall, :gray, canvas, socket)
+      :delete_sprite -> delete_sprite(grid_coordinate, canvas, socket)
+      _ -> {:no_reply, socket}
+    end
+  end
+
+  def add_protagonist_sprite(grid_coordinate, color, canvas, socket) do
+    canvas_has_protagonist? = canvas.sprites
+      |> Enum.any?(
+        fn s ->
+          s.type == :protagonist
+        end
+      )
+    canvas = cond do
+      canvas_has_protagonist? -> remove_protagonist(canvas)
+      true -> canvas
+    end
+
+    add_sprite(grid_coordinate, :protagonist, color, canvas, socket)
+  end
+
+  def remove_protagonist(canvas) do
+    [protagonist | _] = canvas
+      |> Canvas.get_sprites_by_type(:protagonist)
+    IO.inspect(protagonist)
+    canvas = Canvas.remove_sprite(canvas, protagonist)
+  end
+
+  def delete_sprite(grid_coordinate, canvas, socket) do
+    sprite = Canvas.get_sprite_by_grid_coordinate(canvas, grid_coordinate)
+    {:noreply,
+    assign(
+      socket,
+      state: %{
+        socket.assigns.state |
+        canvas: Canvas.remove_sprite(
+          canvas,
+          sprite
+        )
+      }
+    )
+    }
+  end
+
+  def add_sprite(grid_coordinate, type, color, canvas, socket) do
+
     new_sprite = %Sprite{
-      color: :green,
+      color: color,
       grid_coordinate: grid_coordinate,
-      type: :none
+      type: type,
     }
 
     {:noreply,
@@ -41,7 +111,7 @@ defmodule BlueWeb.BlueLive do
       state: %{
         socket.assigns.state |
         canvas: Canvas.add_sprite(
-          socket.assigns.state.canvas,
+          canvas,
           new_sprite
         )
       }

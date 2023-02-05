@@ -13,7 +13,6 @@ defmodule BlueWeb.BlueLive do
 
     {:ok, assign(
       socket,
-      val: 0,
       state: state
       )}
   end

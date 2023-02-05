@@ -3,6 +3,7 @@ defmodule Blue.Action do
   alias Blue.DesignerModeButtons
   alias Blue.{Canvas, Sprite, Svg}
 
+  # @spec update_canvas_designer_mode(Svg.coordinate.t(), State.t()) :: Canvas.t()
   def update_canvas_designer_mode({x, y}, state) do
 
     true_button = DesignerModeButtons.get_true_button(state.designer_mode.buttons)
@@ -26,6 +27,7 @@ defmodule Blue.Action do
     end
   end
 
+  # @spec add_protagonist_sprite(Sprite.grid_coordinate.t(), Color.t(), Canvas.t()) :: Canvas.t()
   def add_protagonist_sprite(grid_coordinate, color, canvas) do
     canvas_has_protagonist? = canvas.sprites
       |> Enum.any?(
@@ -41,6 +43,7 @@ defmodule Blue.Action do
     add_sprite(grid_coordinate, :protagonist, color, canvas)
   end
 
+  # @spec add_sprite(Sprite.grid_coordinate.t(), Sprite.type.t(), Color.t(), Canvas.t()) :: Canvas.t()
   def add_sprite(grid_coordinate, type, color, canvas) do
 
     new_sprite = %Sprite{
@@ -52,11 +55,13 @@ defmodule Blue.Action do
     Canvas.add_sprite(canvas,new_sprite)
   end
 
+  # @spec delete_sprite(Sprite.grid_coordinate.t(), Canvas.t()) :: Canvas.t()
   def delete_sprite(grid_coordinate, canvas) do
     sprite = Canvas.get_sprite_by_grid_coordinate(canvas, grid_coordinate)
     Canvas.remove_sprite(canvas,sprite)
   end
 
+  # @spec remove_protagonist(Canvas.t()) :: Canvas.t()
   def remove_protagonist(canvas) do
     [protagonist | _] = canvas
       |> Canvas.get_sprites_by_type(:protagonist)
@@ -64,6 +69,7 @@ defmodule Blue.Action do
     Canvas.remove_sprite(canvas, protagonist)
   end
 
+  # @spec update_canvas(String.t(), Canvas.t()) :: Canvas.t()
   def update_canvas(key_pressed, canvas) do
     direction = get_direction(key_pressed)
     case direction do
@@ -75,6 +81,7 @@ defmodule Blue.Action do
     end
   end
 
+  # @spec move_protagonist(Sprite.direction.t(), Canvas.t()) :: Canvas.t()
   def move_protagonist(direction, canvas) do
     protagonist_sprite = Canvas.get_sprites_by_type(canvas, :protagonist) |> Enum.at(0)
 
@@ -89,6 +96,7 @@ defmodule Blue.Action do
     end
   end
 
+  # @spec handle_adjacent_sprite(Canvas.t(), Sprite.direction.t(), Sprite.t()) :: Canvas.t()
   def handle_adjacent_sprite(canvas, direction, protagonist_sprite) do
     adjacent_sprite = Canvas.get_adjacent_sprite(canvas, direction, protagonist_sprite.grid_coordinate)
 
@@ -99,16 +107,19 @@ defmodule Blue.Action do
 
   end
 
+  # @spec handle_item_sprite(Canvas.t(), Sprite.direction.t(), Sprite.t(), Sprite.t()) :: Canvas.t()
   def handle_item_sprite(canvas, direction, protagonist_sprite, item_sprite) do
     canvas
       |> Canvas.remove_sprite(item_sprite)
       |> Canvas.move_sprite(protagonist_sprite, direction)
   end
 
+  # @spec handle_item_sprite(Canvas.t()) :: Canvas.t()
   def handle_wall_sprite(canvas) do
     canvas
   end
 
+  # @spec get_direction(String.t()) :: Sprite.direction.t()
   def get_direction(key_pressed) do
     case key_pressed do
       "ArrowLeft" -> :left

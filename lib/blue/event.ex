@@ -3,11 +3,20 @@ defmodule Blue.Event do
   alias Blue.{Action, Canvas, DesignerMode}
   alias Phoenix.Socket
 
-  def svg_click( %{"offsetX" => x, "offsetY" => y} = _event, socket) do
-    case socket.assigns.state.designer_mode.on do
-      true -> Action.update_canvas_designer_mode({x, y}, socket)
-      false -> {:noreply, socket}
-    end
+  def svg_click(%{"offsetX" => x, "offsetY" => y} = _event, socket) do
+    IO.inspect(socket.assigns.state)
+    {:noreply,
+    Socket.assign(
+      socket,
+      state: %{
+        socket.assigns.state |
+        canvas: Action.update_canvas_designer_mode(
+          {x, y},
+          socket.assigns.state
+        )
+      }
+    )
+    }
   end
 
   def export(socket) do

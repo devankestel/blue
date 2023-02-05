@@ -10,10 +10,6 @@ defmodule Blue.Event do
     end
   end
 
-  def inc(socket) do
-    {:noreply, Socket.update(socket, :val, &(&1 + 1))}
-  end
-
   def export(socket) do
     IO.inspect(socket.assigns.state.filename)
     Canvas.to_json(socket.assigns.state.canvas, "lib/blue_web/live/json_exports/export_canvas.json")

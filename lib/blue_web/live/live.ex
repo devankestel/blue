@@ -25,7 +25,6 @@ defmodule BlueWeb.BlueLive do
   def handle_event(event_name, event, socket) do
     case event_name do
       "svg_click" -> Event.svg_click(event, socket)
-      "inc" ->  Event.inc(socket)
       "export" -> Event.export(socket)
       "designer_mode" -> Event.designer_mode(socket)
       "add_protagonist_sprite" -> Event.designer_mode_button(event_name, socket)

@@ -1,73 +1,101 @@
 defmodule Blue.SpriteTest do
-    use ExUnit.Case
-    alias Blue.{Action, Canvas, Sprite}
+  use ExUnit.Case
+  use Patch
+  alias Blue.Direction
+  alias Blue.{Action, Canvas, Sprite}
 
-    # @TODO: as this module stands almost everything is an integration test
-    # These need to be turned into proper unit tests at some point
+  # @TODO: as this module stands almost everything is an integration test
+  # These need to be turned into proper unit tests at some point
 
-    describe "add_sprite/3" do
-      test "it adds a sprite" do
-        color = :blue
-        grid_coordinate = {5, 5}
-        type = :item
+  describe "add_sprite/3" do
+    test "it adds a sprite" do
+      color = :blue
+      grid_coordinate = {5, 5}
+      type = :item
 
-        canvas = Canvas.new()
+      canvas = Canvas.new()
 
-        updated_canvas = Action.add_sprite(grid_coordinate, type, color, canvas)
+      updated_canvas = Action.add_sprite(grid_coordinate, type, color, canvas)
 
-        [added_sprite | _] = updated_canvas.sprites
-        assert added_sprite.color == color
-        assert added_sprite.grid_coordinate == grid_coordinate
-        assert added_sprite.type == type
-      end
+      [added_sprite | _] = updated_canvas.sprites
+      assert added_sprite.color == color
+      assert added_sprite.grid_coordinate == grid_coordinate
+      assert added_sprite.type == type
     end
+  end
 
-    describe "handle_wall_sprite/1" do
-      test "protagonist doesn't move when it hits a wall" do
-        canvas = Canvas.new()
-        protagonist_sprite = %Sprite{
-          type: :protagonist,
-          color: :black,
-          grid_coordinate: {5, 5}
-        }
-        wall_sprite = %Sprite{
-          type: :wall,
-          color: :gray,
-          grid_coordinate: {5, 6}
-        }
-        canvas = %{canvas | sprites: [protagonist_sprite, wall_sprite]}
+  describe "handle_wall_sprite/1" do
+    test "protagonist doesn't move when it hits a wall" do
+      canvas = Canvas.new()
+      protagonist_sprite = %Sprite{
+        type: :protagonist,
+        color: :black,
+        grid_coordinate: {5, 5}
+      }
+      wall_sprite = %Sprite{
+        type: :wall,
+        color: :gray,
+        grid_coordinate: {5, 6}
+      }
+      canvas = %{canvas | sprites: [protagonist_sprite, wall_sprite]}
 
-        expected_canvas = canvas
+      expected_canvas = canvas
 
-        updated_canvas = Action.handle_wall_sprite(canvas)
+      updated_canvas = Action.handle_wall_sprite(canvas)
 
-        assert updated_canvas == expected_canvas
-      end
+      assert updated_canvas == expected_canvas
     end
+  end
 
 
-      describe "handle_item_sprite/1" do
-        test "protagonist picks up item" do
-          canvas = Canvas.new()
-          protagonist_sprite = %Sprite{
-            type: :protagonist,
-            color: :black,
-            grid_coordinate: {5, 5}
-          }
-          item_sprite = %Sprite{
-            type: :wall,
-            color: :blue,
-            grid_coordinate: {5, 6}
-          }
-          canvas = %{canvas | sprites: [protagonist_sprite, item_sprite]}
-          direction = :down
+  describe "handle_item_sprite/1" do
+    test "protagonist picks up item" do
+      canvas = Canvas.new()
+      protagonist_sprite = %Sprite{
+        type: :protagonist,
+        color: :black,
+        grid_coordinate: {5, 5}
+      }
+      item_sprite = %Sprite{
+        type: :wall,
+        color: :blue,
+        grid_coordinate: {5, 6}
+      }
+      canvas = %{canvas | sprites: [protagonist_sprite, item_sprite]}
+      direction = :down
 
-          moved_protagonist_sprite = %{protagonist_sprite | grid_coordinate: {5, 6}}
-          expected_canvas = %{canvas | sprites: [moved_protagonist_sprite]}
+      moved_protagonist_sprite = %{protagonist_sprite | grid_coordinate: {5, 6}}
+      expected_canvas = %{canvas | sprites: [moved_protagonist_sprite]}
 
-          updated_canvas = Action.handle_item_sprite(canvas, direction, protagonist_sprite, item_sprite)
+      updated_canvas = Action.handle_item_sprite(canvas, direction, protagonist_sprite, item_sprite)
 
-          assert updated_canvas == expected_canvas
-        end
-      end
+      assert updated_canvas == expected_canvas
+    end
+  end
+
+  describe "update_canavs/2" do
+    test "it moves protagonist down" do
+      canvas = Canvas.new()
+      protagonist_sprite = %Sprite{
+        type: :protagonist,
+        color: :black,
+        grid_coordinate: {5, 5}
+      }
+      canvas = %{canvas | sprites: [protagonist_sprite]}
+      key_pressed = "ArrowDown"
+
+      moved_protagonist_sprite = %{protagonist_sprite | grid_coordinate: {5, 6}}
+      expected_canvas = %{canvas | sprites: [moved_protagonist_sprite]}
+
+      direction = :down
+      patch(Direction, :from_key_to_atom, direction)
+      patch(Action, :move_protagonist, expected_canvas)
+
+      updated_canvas = Action.update_canvas("ArrowDown", canvas)
+
+      assert updated_canvas == expected_canvas
+      assert_called Direction.from_key_to_atom(key_pressed), 1
+      assert_called Action.move_protagonist(direction, canvas), 1
+    end
+  end
 end

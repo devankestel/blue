@@ -1,7 +1,12 @@
 # Game Inspiration
 * [Krakrox](http://asymmetric.net/krakrox/krakrox.html)
 * [Nerdly Pleasures (old gameboy and stuff)](http://nerdlypleasures.blogspot.com/)
+* [Gameboy technical specs](https://www.nintendo.co.uk/Support/Game-Boy-Pocket-Color/Product-information/Technical-data/Technical-data-619585.html)
+* [Nesting SVG within each other](https://stackoverflow.com/questions/16890292/why-nest-an-svg-element-inside-another-svg-element#:~:text=Nesting%20SVG%20elements%20can%20be,of%20its%20enclosing%20svg%20element.)
 
+
+# Form button Madness
+* [Form Button](https://elixirforum.com/t/updating-dom-on-phx-change-on-text-input/28285/3)
 
 # Open Source Data
 * [Free Dictionary](https://www.gutenberg.org/ebooks/29765)

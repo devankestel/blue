@@ -74,29 +74,52 @@ defmodule Blue.ActionTest do
   end
 
   describe "update_canavs/2" do
+    # @TODO: parameterize this test
+    test "it moves protagonist up" do
+      expected_protagonist_grid_coordinate = {5, 4}
+      key_pressed = "ArrowUp"
+      direction = :up
+      test_update_canvas(key_pressed, direction, expected_protagonist_grid_coordinate)
+    end
     test "it moves protagonist down" do
-      canvas = Canvas.new()
-      protagonist_sprite = %Sprite{
-        type: :protagonist,
-        color: :black,
-        grid_coordinate: {5, 5}
-      }
-      canvas = %{canvas | sprites: [protagonist_sprite]}
+      expected_protagonist_grid_coordinate = {5, 6}
       key_pressed = "ArrowDown"
-
-      moved_protagonist_sprite = %{protagonist_sprite | grid_coordinate: {5, 6}}
-      expected_canvas = %{canvas | sprites: [moved_protagonist_sprite]}
-
       direction = :down
-      patch(Direction, :from_key_to_atom, direction)
-      patch(Action, :move_protagonist, expected_canvas)
-
-      updated_canvas = Action.update_canvas("ArrowDown", canvas)
-
-      assert updated_canvas == expected_canvas
-      assert_called Direction.from_key_to_atom(key_pressed), 1
-      assert_called Action.move_protagonist(direction, canvas), 1
+      test_update_canvas(key_pressed, direction, expected_protagonist_grid_coordinate)
+    end
+    test "it moves protagonist left" do
+      expected_protagonist_grid_coordinate = {4, 5}
+      key_pressed = "ArrowLeft"
+      direction = :left
+      test_update_canvas(key_pressed, direction, expected_protagonist_grid_coordinate)
+    end
+    test "it moves protagonist right" do
+      expected_protagonist_grid_coordinate = {6, 5}
+      key_pressed = "ArrowRight"
+      direction = :right
+      test_update_canvas(key_pressed, direction, expected_protagonist_grid_coordinate)
     end
   end
 
+  def test_update_canvas(key_pressed, direction, expected_protagonist_grid_coordinate) do
+    canvas = Canvas.new()
+    protagonist_sprite = %Sprite{
+      type: :protagonist,
+      color: :black,
+      grid_coordinate: {5, 5}
+    }
+    canvas = %{canvas | sprites: [protagonist_sprite]}
+
+    moved_protagonist_sprite = %{protagonist_sprite | grid_coordinate: expected_protagonist_grid_coordinate}
+    expected_canvas = %{canvas | sprites: [moved_protagonist_sprite]}
+
+    patch(Direction, :from_key_to_atom, direction)
+    patch(Action, :move_protagonist, expected_canvas)
+
+    updated_canvas = Action.update_canvas(key_pressed, canvas)
+
+    assert updated_canvas == expected_canvas
+    assert_called Direction.from_key_to_atom(key_pressed), 1
+    assert_called Action.move_protagonist(direction, canvas), 1
+  end
 end

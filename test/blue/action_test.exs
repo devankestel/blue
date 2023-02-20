@@ -99,6 +99,26 @@ defmodule Blue.ActionTest do
       direction = :right
       test_update_canvas(key_pressed, direction, expected_protagonist_grid_coordinate)
     end
+    test "it does not move when a non-arrow key is pressed" do
+      key_pressed = "NotAnArrowKey"
+      canvas = Canvas.new()
+      protagonist_sprite = %Sprite{
+        type: :protagonist,
+        color: :black,
+        grid_coordinate: {5, 5}
+      }
+      canvas = %{canvas | sprites: [protagonist_sprite]}
+      expected_canvas = canvas
+      direction = :nomatch
+      patch(Direction, :from_key_to_atom, direction)
+      patch(Action, :move_protagonist, expected_canvas)
+
+      updated_canvas = Action.update_canvas(key_pressed, canvas)
+
+      assert updated_canvas == expected_canvas
+      assert_called Direction.from_key_to_atom(key_pressed), 1
+      refute_called Action.move_protagonist(direction, canvas)
+    end
   end
 
   def test_update_canvas(key_pressed, direction, expected_protagonist_grid_coordinate) do

@@ -1,4 +1,4 @@
-defmodule Blue.SpriteTest do
+defmodule Blue.ActionTest do
   use ExUnit.Case
   use Patch
   alias Blue.Direction
@@ -98,4 +98,5 @@ defmodule Blue.SpriteTest do
       assert_called Action.move_protagonist(direction, canvas), 1
     end
   end
+
 end

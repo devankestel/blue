@@ -1,6 +1,6 @@
 defmodule Blue.SpriteTest do
     use ExUnit.Case
-    alias Blue.Sprite
+    alias Blue.{Sprite, Direction}
 
     describe "new/0" do
         test "creates a new sprite" do
@@ -134,6 +134,21 @@ defmodule Blue.SpriteTest do
 
         no_match = Sprite.type_to_atom("no_match")
         assert no_match == :none
+      end
+    end
+
+    describe "from_key_to_atom/1" do
+      test "gets all directions" do
+        left = Direction.from_key_to_atom("ArrowLeft")
+        assert left == :left
+        right = Direction.from_key_to_atom("ArrowRight")
+        assert right == :right
+        up = Direction.from_key_to_atom("ArrowUp")
+        assert up == :up
+        down = Direction.from_key_to_atom("ArrowDown")
+        assert down == :down
+        no_match = Direction.from_key_to_atom("InvalidKey")
+        assert no_match == :nomatch
       end
     end
 

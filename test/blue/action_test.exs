@@ -75,6 +75,40 @@ defmodule Blue.ActionTest do
 
   describe "update_canavs/2" do
     # @TODO: parameterize this test
+    # This is a good idea but not working quite right
+    # test "it moves protagonist when direction key pressed" do
+    #   up = %{
+    #     key_pressed: "ArrowUp",
+    #     direction: :up,
+    #     expected_protagonist_grid_coordinate: {5, 4},
+    #   }
+    #   down = %{
+    #     key_pressed: "ArrowDown",
+    #     direction: :down,
+    #     expected_protagonist_grid_coordinate: {5, 6},
+    #   }
+    #   left = %{
+    #     key_pressed: "ArrowLeft",
+    #     direction: :left,
+    #     expected_protagonist_grid_coordinate: {4, 5},
+    #   }
+    #   right = %{
+    #     key_pressed: "ArrowRight",
+    #     direction: :right,
+    #     expected_protagonist_grid_coordinate: {6, 5},
+    #   }
+    #   test_cases = [up, down, left, right]
+    #   test_cases
+    #     |> Enum.each(
+    #       fn(test_case) ->
+    #         test_update_canvas(
+    #           test_case.key_pressed,
+    #           test_case.direction,
+    #           test_case.expected_protagonist_grid_coordinate
+    #         )
+    #       end
+    #     )
+    # end
     test "it moves protagonist up" do
       expected_protagonist_grid_coordinate = {5, 4}
       key_pressed = "ArrowUp"

@@ -1,7 +1,7 @@
 defmodule BlueWeb.BlueLive do
   use BlueWeb, :live_view
 
-  alias Blue.{Canvas, Event, State}
+  alias Blue.{Canvas, DesignerMode, Event, State}
   alias BlueWeb.{HeroComponent, DesignerModeComponent, SvgComponent}
 
   def mount(params, session, socket) do
@@ -22,6 +22,8 @@ defmodule BlueWeb.BlueLive do
   end
 
   def handle_event(event_name, event, socket) do
+    IO.inspect(event_name)
+    IO.inspect(event)
     case event_name do
       "svg_click" -> Event.svg_click(event, socket)
       "export" -> Event.export(socket)

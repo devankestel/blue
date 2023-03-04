@@ -1,8 +1,7 @@
 defmodule Blue.ActionTest do
   use ExUnit.Case
   use Patch
-  alias Blue.Direction
-  alias Blue.{Action, Canvas, Sprite}
+  alias Blue.{Action, Canvas, Direction, Sprite}
 
   # @TODO: as this module stands almost everything is an integration test
   # These need to be turned into proper unit tests at some point
@@ -47,7 +46,6 @@ defmodule Blue.ActionTest do
     end
   end
 
-
   describe "handle_item_sprite/1" do
     test "protagonist picks up item" do
       canvas = Canvas.new()
@@ -75,40 +73,6 @@ defmodule Blue.ActionTest do
 
   describe "update_canavs/2" do
     # @TODO: parameterize this test
-    # This is a good idea but not working quite right
-    # test "it moves protagonist when direction key pressed" do
-    #   up = %{
-    #     key_pressed: "ArrowUp",
-    #     direction: :up,
-    #     expected_protagonist_grid_coordinate: {5, 4},
-    #   }
-    #   down = %{
-    #     key_pressed: "ArrowDown",
-    #     direction: :down,
-    #     expected_protagonist_grid_coordinate: {5, 6},
-    #   }
-    #   left = %{
-    #     key_pressed: "ArrowLeft",
-    #     direction: :left,
-    #     expected_protagonist_grid_coordinate: {4, 5},
-    #   }
-    #   right = %{
-    #     key_pressed: "ArrowRight",
-    #     direction: :right,
-    #     expected_protagonist_grid_coordinate: {6, 5},
-    #   }
-    #   test_cases = [up, down, left, right]
-    #   test_cases
-    #     |> Enum.each(
-    #       fn(test_case) ->
-    #         test_update_canvas(
-    #           test_case.key_pressed,
-    #           test_case.direction,
-    #           test_case.expected_protagonist_grid_coordinate
-    #         )
-    #       end
-    #     )
-    # end
     test "it moves protagonist up" do
       expected_protagonist_grid_coordinate = {5, 4}
       key_pressed = "ArrowUp"
@@ -155,6 +119,25 @@ defmodule Blue.ActionTest do
     end
   end
 
+  describe "update_canvas_designer_mode/2" do
+  end
+
+  describe "add_protagonist_sprite/3" do
+  end
+
+  describe "delete_sprite/2" do
+  end
+
+  describe "remove_protagonist/1" do
+  end
+
+  describe "move_protagonist/2" do
+  end
+
+  describe "handle_adjacent_sprite/4" do
+  end
+
+
   def test_update_canvas(key_pressed, direction, expected_protagonist_grid_coordinate) do
     canvas = Canvas.new()
     protagonist_sprite = %Sprite{
@@ -176,4 +159,5 @@ defmodule Blue.ActionTest do
     assert_called Direction.from_key_to_atom(key_pressed), 1
     assert_called Action.move_protagonist(direction, canvas), 1
   end
+
 end

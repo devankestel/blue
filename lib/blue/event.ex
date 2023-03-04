@@ -1,7 +1,8 @@
 defmodule Blue.Event do
+  alias Phoenix.HTML.Safe.Phoenix.LiveView
   alias Blue.DesignerModeButtons
   alias Blue.{Action, Canvas, DesignerMode}
-  alias Phoenix.Socket
+  alias Phoenix.LiveView
 
   def svg_click(%{"offsetX" => x, "offsetY" => y} = _event, socket) do
     IO.puts("In svg_click")
@@ -9,7 +10,7 @@ defmodule Blue.Event do
     IO.puts("x #{x} y #{y}")
 
     {:noreply,
-    Socket.assign(
+    LiveView.assign(
       socket,
       state: %{
         socket.assigns.state |
@@ -31,7 +32,7 @@ defmodule Blue.Event do
   def designer_mode(socket) do
     IO.inspect(socket.assigns.state)
     {:noreply,
-    Socket.assign(
+    LiveView.assign(
       socket,
       state: %{
         socket.assigns.state |
@@ -48,7 +49,7 @@ defmodule Blue.Event do
     IO.inspect(socket.assigns.state)
     designer_mode = socket.assigns.state.designer_mode
     {:noreply,
-    Socket.assign(
+    LiveView.assign(
       socket,
       state: %{
         socket.assigns.state |
@@ -68,7 +69,7 @@ defmodule Blue.Event do
     IO.inspect(socket.assigns.state)
     %{"key" => key_pressed} = event
     {:noreply,
-    Socket.assign(
+    LiveView.assign(
       socket,
       state: %{
         socket.assigns.state |

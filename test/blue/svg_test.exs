@@ -53,8 +53,31 @@ defmodule Blue.SvgTest do
   end
 
   describe "header/1" do
-    test "creates svg header based on canvas params" do
+    test "creates svg header based on canvas params, and not in designer mode" do
       canvas = Canvas.new()
+      designer_mode = false
+      expected_header =
+        """
+        <svg phx-window-keydown="keypress"
+        version="1.0"
+        style="background-color: #F8F8F8"
+        id="Layer_1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        width="200" height="400"
+        viewBox="0 0 200 400"
+        xml:space="preserve">
+        """
+
+      header = Svg.header(canvas, designer_mode)
+
+      assert header == expected_header
+    end
+
+    test "creates svg header based on canvas params in designer mode" do
+      canvas = Canvas.new()
+      designer_mode = true
+
       expected_header =
         """
         <svg phx-click="svg_click"
@@ -68,7 +91,7 @@ defmodule Blue.SvgTest do
         xml:space="preserve">
         """
 
-      header = Svg.header(canvas)
+      header = Svg.header(canvas, designer_mode)
 
       assert header == expected_header
     end

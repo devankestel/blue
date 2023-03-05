@@ -441,6 +441,7 @@ defmodule Blue.CanvasTest do
       sprite2 = %{sprite2 | grid_coordinate: {5, 5}}
       sprite2 = %{sprite2 | color: :red}
       canvas = %{canvas | sprites: [sprite1, sprite2]}
+      designer_mode = true
 
       expected_svg =
         """
@@ -464,7 +465,7 @@ defmodule Blue.CanvasTest do
         </svg>\
         """
 
-        svg = Canvas.render(canvas)
+        svg = Canvas.render(canvas, designer_mode)
 
         assert svg == expected_svg
     end

@@ -40,7 +40,7 @@ defmodule Blue.Svg do
   def ghost(canvas, sprite) do
     {x, y} = get_coordinate(canvas, sprite)
     """
-    <svg width="#{canvas.grid_size}px" height="#{canvas.grid_size}px" x="#{x}" y="#{y}" viewBox="0 0 #{canvas.grid_size} #{canvas.grid_size}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <svg width="#{canvas.grid_size}px" height="#{canvas.grid_size}px" x="#{x}" y="#{y}" viewBox="0 0 58 59" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
         <desc>Created with Sketch.</desc>
         <defs></defs>

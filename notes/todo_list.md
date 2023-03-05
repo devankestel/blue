@@ -7,9 +7,11 @@ There is no concept of a level yet. The game state just contains a single canvas
 The entire game is a single SVG. This makes it difficult and maybe impossible to fire events associated with a single sprite. 
 Creating nested SVGs could allow us to fire more events, and maybe to animate the sprites. It is also just better code isolation.
 
-# Scrolling Canvas
-## Problem
-Right now the canvas equals the size of the viewport in the UI. If we want interesting levels, we should make things where the UI shows a piece of a larger canvas and as you move the prtagonist, the canvas that is visible in the UI shifts.
+# Canvas
+## Problem 1
+Right now the canvas equals the size of the viewport in the UI. If we want interesting levels, we should make things where the UI shows a piece of a larger canvas and as you move the protagonist, the canvas that is visible in the UI shifts.
+## Problem 2
+Dark theme. It was always intended that the main mode of this game will be on a dark theme. Rigth now we are on a light theme. This would involve changing background color to black and most likely changing colors of existing sprites. 
 
 # Sprites
 ## Problem 1 

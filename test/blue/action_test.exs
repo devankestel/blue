@@ -167,6 +167,36 @@ defmodule Blue.ActionTest do
       assert_called Action.handle_item_sprite(canvas, direction, protagonist_sprite, item_sprite), 1
       refute_called Action.handle_wall_sprite(canvas)
     end
+    test "it stops when a wall is in the way" do
+      canvas = Canvas.new()
+      protagonist_sprite = %Sprite{
+        type: :protagonist,
+        color: :black,
+        grid_coordinate: {5, 5}
+      }
+      wall_sprite = %Sprite{
+        type: :wall,
+        color: :gray,
+        grid_coordinate: {5, 6}
+      }
+      direction = :right
+      protagonist_grid_coordinate = protagonist_sprite.grid_coordinate
+
+      canvas = %{canvas | sprites: [protagonist_sprite, wall_sprite]}
+
+      expected_canvas = canvas
+
+      patch(Canvas, :get_adjacent_sprite, wall_sprite)
+      patch(Action, :handle_item_sprite, nil)
+      patch(Action, :handle_wall_sprite, expected_canvas)
+
+      updated_canvas = Action.handle_adjacent_sprite(canvas, direction, protagonist_sprite)
+
+      assert updated_canvas == expected_canvas
+      assert_called Canvas.get_adjacent_sprite(canvas, direction, protagonist_grid_coordinate), 1
+      assert_called Action.handle_wall_sprite(canvas), 1
+      refute_called Action.handle_item_sprite(canvas, direction, protagonist_sprite, item_sprite)
+    end
   end
 
 

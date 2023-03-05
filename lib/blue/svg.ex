@@ -1,9 +1,16 @@
 defmodule Blue.Svg do
   alias Blue.Sprite
 
-  def header(canvas) do
+  def header(canvas, designer_mode) do
+    # we need to conditionally render the click event
+    # or the keypress event based on which mode
+    # we are in
+    event = case designer_mode do
+      true -> 'phx-click="svg_click"'
+      false -> 'phx-click="svg_click"'
+    end
     """
-    <svg phx-click="svg_click"
+    <svg #{event}
     version="1.0"
     style="background-color: #F8F8F8"
     id="Layer_1"

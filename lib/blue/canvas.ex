@@ -154,8 +154,8 @@ def move_sprite(canvas, sprite, direction) do
   %{canvas | sprites: updated_sprites}
 end
 
-def render(canvas) do
-  header = Svg.header(canvas)
+def render(canvas, designer_mode) do
+  header = Svg.header(canvas, designer_mode)
   footer = Svg.footer()
 
   sprite_svgs = canvas.sprites |>

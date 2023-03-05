@@ -152,6 +152,49 @@ defmodule Blue.ActionTest do
 
       test_update_canvas_designer_mode(true_button, expected_sprite)
     end
+
+    test "it adds a protagonist sprite" do
+
+      state = State.new()
+      canvas = Canvas.new()
+      protagonist_sprite = %Sprite{
+        type: :protagonist,
+        color: :black,
+        grid_coordinate: {1, 1}
+      }
+      canvas = %{canvas | sprites: [protagonist_sprite]}
+      designer_mode = DesignerMode.new()
+      buttons = %{designer_mode.buttons | add_protagonist_sprite: true}
+      designer_mode = %{designer_mode | on: true, buttons: buttons}
+      state = %{state | canvas: canvas, designer_mode: designer_mode}
+      svg_coordinate = {85, 85}
+
+      true_button = :add_protagonist_sprite
+      expected_sprite = %Sprite{
+        type: :protagonist,
+        color: :black,
+        grid_coordinate: {5, 5}
+      }
+      grid_coordinate = expected_sprite.grid_coordinate
+      type = expected_sprite.type
+      color = expected_sprite.color
+
+      expected_canvas = %{canvas | sprites: [protagonist_sprite, expected_sprite]}
+
+      patch(DesignerModeButtons, :get_true_button, true_button)
+      patch(Action, :add_protagonist_sprite, expected_canvas)
+      patch(Action, :add_sprite, nil)
+      patch(Action, :delete_sprite, nil)
+
+      updated_canvas = Action.update_canvas_designer_mode(svg_coordinate, state)
+
+      assert updated_canvas == expected_canvas
+      assert_called DesignerModeButtons.get_true_button(buttons), 1
+      assert_called Action.add_protagonist_sprite(grid_coordinate, color, canvas), 1
+      refute_called Action.add_sprite(grid_coordinate, type, color, canvas)
+      refute_called Action.delete_sprite(grid_coordinate, canvas)
+
+    end
   end
 
   describe "add_protagonist_sprite/3" do
@@ -261,6 +304,7 @@ defmodule Blue.ActionTest do
     patch(DesignerModeButtons, :get_true_button, true_button)
     patch(Action, :add_sprite, expected_canvas)
     patch(Action, :delete_sprite, nil)
+    patch(Action, :add_protagonist_sprite, nil)
 
     updated_canvas = Action.update_canvas_designer_mode(svg_coordinate, state)
 
@@ -268,6 +312,7 @@ defmodule Blue.ActionTest do
     assert_called DesignerModeButtons.get_true_button(buttons), 1
     assert_called Action.add_sprite(grid_coordinate, type, color, canvas), 1
     refute_called Action.delete_sprite(grid_coordinate, canvas)
+    refute_called Action.add_protagonist_sprite(grid_coordinate, color, canvas)
   end
 
 

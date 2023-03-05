@@ -5,9 +5,10 @@ defmodule Blue.Svg do
     # we need to conditionally render the click event
     # or the keypress event based on which mode
     # we are in
+    IO.inspect("render designer mode #{designer_mode}")
     event = case designer_mode do
       true -> 'phx-click="svg_click"'
-      false -> 'phx-click="svg_click"'
+      false -> 'phx-window-keydown="keypress"'
     end
     """
     <svg #{event}

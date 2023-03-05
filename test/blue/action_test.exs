@@ -260,12 +260,14 @@ defmodule Blue.ActionTest do
 
     patch(DesignerModeButtons, :get_true_button, true_button)
     patch(Action, :add_sprite, expected_canvas)
+    patch(Action, :delete_sprite, nil)
 
     updated_canvas = Action.update_canvas_designer_mode(svg_coordinate, state)
 
     assert updated_canvas == expected_canvas
     assert_called DesignerModeButtons.get_true_button(buttons), 1
     assert_called Action.add_sprite(grid_coordinate, type, color, canvas), 1
+    refute_called Action.delete_sprite(grid_coordinate, canvas)
   end
 
 

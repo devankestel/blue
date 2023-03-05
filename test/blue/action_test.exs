@@ -1,7 +1,9 @@
 defmodule Blue.ActionTest do
   use ExUnit.Case
   use Patch
-  alias Blue.{Action, Canvas, Direction, Sprite}
+  alias Blue.DesignerModeButtons
+  alias Blue.DesignerMode
+  alias Blue.{Action, Canvas, DesignerMode, Direction, Sprite, State}
 
   # @TODO: as this module stands almost everything is an integration test
   # These need to be turned into proper unit tests at some point
@@ -120,6 +122,42 @@ defmodule Blue.ActionTest do
   end
 
   describe "update_canvas_designer_mode/2" do
+    test "it adds a blue item sprite" do
+      state = State.new()
+      canvas = Canvas.new()
+      protagonist_sprite = %Sprite{
+        type: :protagonist,
+        color: :black,
+        grid_coordinate: {1, 1}
+      }
+      canvas = %{canvas | sprites: [protagonist_sprite]}
+      designer_mode = DesignerMode.new()
+      buttons = %{designer_mode.buttons | add_blue_item_sprite: true}
+      designer_mode = %{designer_mode | on: true, buttons: buttons}
+      state = %{state | canvas: canvas, designer_mode: designer_mode}
+      svg_coordinate = {85, 85}
+
+      true_button = :add_blue_item_sprite
+      expected_sprite = %Sprite{
+        type: :item,
+        color: :blue,
+        grid_coordinate: {5, 5}
+      }
+      grid_coordinate = expected_sprite.grid_coordinate
+      type = expected_sprite.type
+      color = expected_sprite.color
+
+      expected_canvas = %{canvas | sprites: [protagonist_sprite, expected_sprite]}
+
+      patch(DesignerModeButtons, :get_true_button, true_button)
+      patch(Action, :add_sprite, expected_canvas)
+
+      updated_canvas = Action.update_canvas_designer_mode(svg_coordinate, state)
+
+      assert updated_canvas == expected_canvas
+      assert_called DesignerModeButtons.get_true_button(buttons), 1
+      assert_called Action.add_sprite(grid_coordinate, type, color, canvas), 1
+      end
   end
 
   describe "add_protagonist_sprite/3" do

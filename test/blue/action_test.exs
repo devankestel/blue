@@ -134,7 +134,39 @@ defmodule Blue.ActionTest do
   describe "move_protagonist/2" do
   end
 
-  describe "handle_adjacent_sprite/4" do
+  describe "handle_adjacent_sprite/3" do
+    test "it collects an adjacent item sprite" do
+      canvas = Canvas.new()
+      protagonist_sprite = %Sprite{
+        type: :protagonist,
+        color: :black,
+        grid_coordinate: {5, 5}
+      }
+      item_sprite = %Sprite{
+        type: :item,
+        color: :blue,
+        grid_coordinate: {5, 6}
+      }
+      direction = :right
+      protagonist_grid_coordinate = protagonist_sprite.grid_coordinate
+
+      canvas = %{canvas | sprites: [protagonist_sprite, item_sprite]}
+
+      expected_protagonist_grid_coordinate = {5, 6}
+      moved_protagonist_sprite = %{protagonist_sprite | grid_coordinate: expected_protagonist_grid_coordinate}
+      expected_canvas = %{canvas | sprites: [moved_protagonist_sprite]}
+
+      patch(Canvas, :get_adjacent_sprite, item_sprite)
+      patch(Action, :handle_item_sprite, expected_canvas)
+      patch(Action, :handle_wall_sprite, nil)
+
+      updated_canvas = Action.handle_adjacent_sprite(canvas, direction, protagonist_sprite)
+
+      assert updated_canvas == expected_canvas
+      assert_called Canvas.get_adjacent_sprite(canvas, direction, protagonist_grid_coordinate), 1
+      assert_called Action.handle_item_sprite(canvas, direction, protagonist_sprite, item_sprite), 1
+      refute_called Action.handle_wall_sprite(canvas)
+    end
   end
 
 

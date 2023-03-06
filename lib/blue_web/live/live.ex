@@ -18,7 +18,7 @@ defmodule BlueWeb.BlueLive do
   end
 
   def create_starting_canvas() do
-    Canvas.from_json("test/blue/fixtures/example_canvas.json")
+    Canvas.from_json("test/blue/fixtures/starting_canvas.json")
   end
 
   def handle_event(event_name, event, socket) do

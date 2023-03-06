@@ -1,6 +1,7 @@
 defmodule Blue.Canvas do
   alias __MODULE__
   alias Blue.{Sprite, Color, Svg}
+  alias Phoenix.HTML
 
   @type grid_size :: integer
   @type width :: integer
@@ -46,13 +47,16 @@ def get_sprites_by_type(canvas, type) do
 end
 
 def get_sprite_by_grid_coordinate(canvas, grid_coordinate) do
-  [sprite | _] = canvas.sprites
+  sprites = canvas.sprites
     |> Enum.filter(
       fn s ->
         s.grid_coordinate == grid_coordinate
       end
     )
-  sprite
+  case sprites do
+    [sprite | _] -> sprite
+    [] -> nil
+  end
 end
 
 def can_collect_item?(
@@ -136,6 +140,8 @@ def remove_sprite(canvas, sprite) do
         s.grid_coordinate != sprite.grid_coordinate
       end
     )
+  IO.inspect("filtered sprites:")
+  IO.inspect(filtered_sprites)
   %{canvas | sprites: filtered_sprites}
 end
 
@@ -154,24 +160,46 @@ def move_sprite(canvas, sprite, direction) do
   %{canvas | sprites: updated_sprites}
 end
 
+def render_sprite(canvas, sprite) do
+  case sprite.type do
+    :protagonist -> Svg.ghost(canvas, sprite)
+    :wall -> Svg.brick(canvas, sprite)
+    :item -> render_item(canvas, sprite)
+    _ -> Svg.square(canvas, sprite)
+  end
+end
+
+def render_item(canvas, sprite) do
+  case sprite.color do
+    :red -> Svg.lemon(canvas, sprite)
+    :blue -> Svg.coin(canvas, sprite)
+    _ -> Svg.square(canvas, sprite)
+  end
+end
+
 def render(canvas, designer_mode) do
   header = Svg.header(canvas, designer_mode)
   footer = Svg.footer()
-
+  IO.inspect("canvas sprites in render:")
+  IO.inspect(canvas.sprites)
   sprite_svgs = canvas.sprites |>
     Enum.map(
       fn sprite ->
-        case {sprite.type, sprite.color} do
-          {:protagonist, _} -> Svg.ghost(canvas, sprite)
-          {:item, :blue} -> Svg.coin(canvas, sprite)
-          _ -> Svg.square(canvas, sprite)
-        end
+        render_sprite(canvas, sprite)
       end
     )
-
+  IO.inspect("length of svg items")
+  IO.inspect(Enum.count(sprite_svgs))
+  IO.inspect("sprite svg list to render:")
+  IO.inspect(sprite_svgs)
   middle = Enum.join(sprite_svgs)
-
-  Enum.join([header, middle, footer])
+  File.write("lib/blue/middle.svg", middle)
+  rendered_canvas = Enum.join([header, middle, footer])
+  File.write("lib/blue/rendered_canvas.svg", rendered_canvas)
+  {:safe, raw_rendered_canvas} = HTML.raw(rendered_canvas)
+  IO.inspect(raw_rendered_canvas)
+  File.write("lib/blue/raw_rendered.svg", raw_rendered_canvas)
+  rendered_canvas
 end
 
 def from_json(path) do

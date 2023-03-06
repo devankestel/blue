@@ -20,3 +20,7 @@
 # Elixir Tooling
 * [mix-test.watch](https://github.com/lpil/mix-test.watch)
 * [excoveralls test coverage package](https://github.com/parroty/excoveralls)
+
+# SVG
+* [nested svg phoenix](https://hashrocket.com/blog/posts/svg-phoenix-applications)
+* [xmlns namespaces](https://developer.mozilla.org/en-US/docs/Web/SVG/Namespaces_Crash_Course)

@@ -46,6 +46,18 @@ defmodule Blue.Action do
   # @spec add_sprite(Sprite.grid_coordinate.t(), Sprite.type.t(), Color.t(), Canvas.t()) :: Canvas.t()
   def add_sprite(grid_coordinate, type, color, canvas) do
 
+    sprite = Canvas.get_sprite_by_grid_coordinate(canvas, grid_coordinate)
+    IO.inspect("get sprite result:")
+    IO.inspect(sprite)
+    IO.inspect("canvas before removal:")
+    IO.inspect(canvas)
+    canvas = case sprite do
+      nil -> canvas
+      _ -> Canvas.remove_sprite(canvas, sprite)
+    end
+    IO.inspect("canvas after removal")
+    IO.inspect(canvas)
+
     new_sprite = %Sprite{
       color: color,
       grid_coordinate: grid_coordinate,

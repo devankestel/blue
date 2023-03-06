@@ -161,8 +161,9 @@ def render(canvas, designer_mode) do
   sprite_svgs = canvas.sprites |>
     Enum.map(
       fn sprite ->
-        case sprite.type do
-          :protagonist -> Svg.ghost(canvas, sprite)
+        case {sprite.type, sprite.color} do
+          {:protagonist, _} -> Svg.ghost(canvas, sprite)
+          {:item, :blue} -> Svg.coin(canvas, sprite)
           _ -> Svg.square(canvas, sprite)
         end
       end

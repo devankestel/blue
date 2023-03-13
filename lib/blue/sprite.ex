@@ -37,6 +37,13 @@ defmodule Blue.Color do
         _ -> :neon_yellow
       end
     end
+
+    def get_vector_string(color) do
+      Color.new() |>
+        Map.get(color) |>
+        Tuple.to_list() |>
+        Enum.join(",")
+    end
 end
 
 defmodule Blue.Direction do

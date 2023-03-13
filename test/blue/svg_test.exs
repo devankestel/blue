@@ -1,8 +1,8 @@
 defmodule Blue.SvgTest do
   use ExUnit.Case
-  alias Blue.Canvas
-  alias Blue.Sprite
-  alias Blue.Svg
+  use Patch
+
+  alias Blue.{Canvas, Color, Sprite, Svg}
 
   describe "square/2" do
     test "it creates a black square" do
@@ -58,6 +58,7 @@ defmodule Blue.SvgTest do
       designer_mode_on = false
       color = :black
 
+      expected_vector_string = "0,0,0,1"
       expected_header =
         """
         <svg phx-window-keydown="keypress"
@@ -71,9 +72,12 @@ defmodule Blue.SvgTest do
         xml:space="preserve">
         """
 
+      patch(Color, :get_vector_string, expected_vector_string)
+
       header = Svg.header(canvas, designer_mode_on, color)
 
       assert header == expected_header
+      assert_called Color.get_vector_string(color), 1
     end
 
     test "creates svg header based on canvas params in designer mode" do

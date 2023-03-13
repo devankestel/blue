@@ -1,6 +1,6 @@
 defmodule Blue.SpriteTest do
     use ExUnit.Case
-    alias Blue.{Sprite, Direction}
+    alias Blue.{Color, Sprite, Direction}
 
     describe "new/0" do
         test "creates a new sprite" do
@@ -149,6 +149,57 @@ defmodule Blue.SpriteTest do
         assert down == :down
         no_match = Direction.from_key_to_atom("InvalidKey")
         assert no_match == :nomatch
+      end
+    end
+
+    describe "Color.get_vector_string/1" do
+      test "it gets black vector string" do
+        color = :black
+        expected_vector_string = "0,0,0,1"
+
+        vector_string = Color.get_vector_string(color)
+
+        assert vector_string == expected_vector_string
+      end
+      test "it gets red vector string" do
+        color = :red
+        expected_vector_string = "255,0,0,1"
+
+        vector_string = Color.get_vector_string(color)
+
+        assert vector_string == expected_vector_string
+      end
+      test "it gets green vector string" do
+        color = :green
+        expected_vector_string = "0,255,0,1"
+
+        vector_string = Color.get_vector_string(color)
+
+        assert vector_string == expected_vector_string
+      end
+      test "it gets blue vector string" do
+        color = :blue
+        expected_vector_string = "0,0,255,1"
+
+        vector_string = Color.get_vector_string(color)
+
+        assert vector_string == expected_vector_string
+      end
+      test "it gets white vector string" do
+        color = :white
+        expected_vector_string = "255,255,255,1"
+
+        vector_string = Color.get_vector_string(color)
+
+        assert vector_string == expected_vector_string
+      end
+      test "it gets gray vector string" do
+        color = :gray
+        expected_vector_string = "100,100,100,1"
+
+        vector_string = Color.get_vector_string(color)
+
+        assert vector_string == expected_vector_string
       end
     end
 

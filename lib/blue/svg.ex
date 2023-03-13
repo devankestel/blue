@@ -10,16 +10,12 @@ defmodule Blue.Svg do
       true -> 'phx-click="svg_click"'
       false -> 'phx-window-keydown="keypress"'
     end
-    colors = Color.new()
-    color_vector = colors |>
-      Map.get(background_color) |>
-      Tuple.to_list() |>
-      Enum.join(",")
+    color_vector_string = Color.get_vector_string(background_color)
 
     """
     <svg #{event}
     version="1.0"
-    style="background-color:rgba(#{color_vector})"
+    style="background-color:rgba(#{color_vector_string})"
     id="Layer_1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"

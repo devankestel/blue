@@ -1,23 +1,29 @@
 defmodule Blue.Svg do
-  alias Blue.Sprite
+  alias Blue.{Color, Sprite}
 
-  def header(canvas, designer_mode) do
+  def header(canvas, designer_mode_on, background_color) do
     # we need to conditionally render the click event
     # or the keypress event based on which mode
     # we are in
-    IO.inspect("render designer mode #{designer_mode}")
-    event = case designer_mode do
+    IO.inspect("render designer mode #{designer_mode_on}")
+    event = case designer_mode_on do
       true -> 'phx-click="svg_click"'
       false -> 'phx-window-keydown="keypress"'
     end
+    colors = Color.new()
+    color_vector = colors |>
+      Map.get(background_color) |>
+      Tuple.to_list() |>
+      Enum.join(",")
+
     """
     <svg #{event}
     version="1.0"
-    style="background-color: #F8F8F8"
+    style="background-color:rgba(#{color_vector})"
     id="Layer_1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
-    width="500" height="500"
+    width="#{canvas.width}" height="#{canvas.height}"
     viewBox="0 0 #{canvas.width} #{canvas.height}"
     xml:space="preserve">
     """
@@ -133,6 +139,80 @@ defmodule Blue.Svg do
             </g>
         </svg>
     """
+  end
+
+  def designer_mode_header_with_filter() do
+    """
+    <svg width="1000px", height="1000px">
+      <defs>
+          <filter x="-21.4%" y="-21.4%" width="142.9%" height="142.9%" filterUnits="objectBoundingBox" id="highlight">
+              <feGaussianBlur stdDeviation="50" in="SourceGraphic"></feGaussianBlur>
+          </filter>
+      </defs>
+    """
+  end
+
+  def ghost_highlight(button_value) do
+    """
+    <svg button_value="#{button_value}">
+    </svg>
+    """
+  end
+
+  def lemon_highlight(button_value) do
+    """
+    <svg button_value="#{button_value}">
+    </svg>
+    """
+  end
+
+  def coin_highlight(button_value) do
+    """
+    <svg button_value="#{button_value}">
+    </svg>
+    """
+  end
+
+  def wall_highlight(button_value) do
+    """
+    <svg button_value="#{button_value}">
+    </svg>
+    """
+  end
+
+  def eraser_highlight(button_value) do
+    """
+    <svg button_value="#{button_value}">
+    </svg>
+    """
+  end
+
+  def render_button(button_name, button_value) do
+    case button_name do
+      :add_protagonist_sprite -> ghost_highlight(button_value)
+      :add_red_item_sprite -> lemon_highlight(button_value)
+      :add_blue_item_sprite -> coin_highlight(button_value)
+      :add_wall_sprite -> wall_highlight(button_value)
+      :delete_sprite -> eraser_highlight(button_value)
+    end
+  end
+
+  def loop_logic(buttons) do
+    buttons |>
+      Enum.map(
+        fn button_name, button_value ->
+          render_button(button_name, button_value)
+        end
+
+      )
+  end
+
+  # The outer code here should get moved?
+  def render_designer_mode_buttons(buttons) do
+      header = designer_mode_header_with_filter()
+      middle = loop_logic(buttons)
+      footer = footer()
+      [header, middle, footer]
   end
 
   def get_coordinate(canvas, sprite) do

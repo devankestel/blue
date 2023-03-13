@@ -1,0 +1,15 @@
+
+<svg width="944px" height="944px" viewBox="0 0 944 944" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-21.4%" y="-21.4%" width="142.9%" height="142.9%" filterUnits="objectBoundingBox" id="filter-1">
+            <feGaussianBlur stdDeviation="50" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.496433424">
+        <rect id="Rectangle-2" fill="#D0FF81" filter="url(#filter-1)" x="122" y="122" width="700" height="700"></rect>
+    </g>
+</svg>
+
+https://www.smashingmagazine.com/2015/05/why-the-svg-filter-is-awesome/

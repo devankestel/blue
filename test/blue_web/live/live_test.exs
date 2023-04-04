@@ -15,6 +15,19 @@ defmodule BlueWeb.BlueLiveTest do
     end
   end
 
+  describe "click events?" do
+    test "click on designer mode?", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/blue")
+
+
+      html = view
+      |> element("button", "Designer mode")
+      |> render_click()
+
+      assert html =~ "Designer mode: true"
+    end
+  end
+
 
   describe "mount/3" do
 

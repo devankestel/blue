@@ -191,13 +191,13 @@ def render(canvas, designer_mode) do
   IO.inspect("length of svg items")
   IO.inspect(Enum.count(sprite_svgs))
   IO.inspect("sprite svg list to render:")
-  IO.inspect(sprite_svgs)
+  # IO.inspect(sprite_svgs)
   middle = Enum.join(sprite_svgs)
   File.write("lib/blue/middle.svg", middle)
   rendered_canvas = Enum.join([header, middle, footer])
   File.write("lib/blue/rendered_canvas.svg", rendered_canvas)
   {:safe, raw_rendered_canvas} = HTML.raw(rendered_canvas)
-  IO.inspect(raw_rendered_canvas)
+  # IO.inspect(raw_rendered_canvas)
   File.write("lib/blue/raw_rendered.svg", raw_rendered_canvas)
   rendered_canvas
 end

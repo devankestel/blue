@@ -178,7 +178,7 @@ def render_item(canvas, sprite) do
 end
 
 def render(canvas, designer_mode) do
-  header = Svg.header(canvas, designer_mode)
+  header = Svg.header(canvas, designer_mode, :black)
   footer = Svg.footer()
   IO.inspect("canvas sprites in render:")
   IO.inspect(canvas.sprites)

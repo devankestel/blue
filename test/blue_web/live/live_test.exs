@@ -6,6 +6,31 @@ defmodule BlueWeb.BlueLiveTest do
   alias BlueWeb.BlueLive
   alias Blue.{Canvas, Sprite}
 
+  defp parse_wall_sprites(
+    {
+        "svg",
+        [
+            {"id", id},
+            {"width", width},
+            {"height", height},
+            {"x", x},
+            {"y", y},
+            {"viewbox", viewbox}
+        ],
+        _,
+    }
+    ) do
+    
+    %{
+        id: id,
+        width: width, 
+        height: height, 
+        x: x,
+        y: y,
+        viewbox: viewbox 
+    }
+  end
+
   describe "basic rendering" do
     test "renders our game page", %{conn: conn} do
       {:ok, view, html} = live(conn, "/blue")
@@ -37,7 +62,7 @@ defmodule BlueWeb.BlueLiveTest do
     end
 
     test "add a protagonist", %{conn: conn} do
-      #       In testing, the view is stateful/mutable, so you can do something like this:
+      # In testing, the view is stateful/mutable, so you can do something like this:
 
       # {:ok, view, _html} = live(conn, "/path")
 
@@ -67,11 +92,14 @@ defmodule BlueWeb.BlueLiveTest do
         |> Floki.parse_fragment!()
 
         # IO.inspect(parsed_fragment)
-        items =
+        wall_sprites =
           parsed_fragment
           |> Floki.find("#wall_sprite")
 
-        # @TODO: find count of each sprite on svg
+
+        # @TODO:
+        # Fix the git security stuff
+        # find count of each sprite on svg
         # assert other props like location
         # and maybe assert size?
         # figure out how to do a click event
@@ -83,16 +111,29 @@ defmodule BlueWeb.BlueLiveTest do
 
         # IO.inspect(items)
 
-        items_count =
-          items
+        wall_sprites_count =
+          wall_sprites
             |> length()
 
         IO.inspect("Wall count:")
-        IO.inspect(items_count)
+        IO.inspect(wall_sprites_count)
           # |> Enum.map(&Floki.text(&1, sep: " "))
+    
+        parsed_wall_sprites = 
+            wall_sprites
+            |> Enum.map(&parse_wall_sprites(&1))
+        IO.inspect("parsed wall sprites")
+        IO.inspect(parsed_wall_sprites)
 
-      assert items_count == 80
-      assert items == ["item 1", "item 2"]
+        first_wall_sprite = Enum.at(parsed_wall_sprites, 0)
+
+      assert wall_sprites_count == 3
+      assert first_wall_sprite.id == "wall_sprite"
+      assert first_wall_sprite.width == "50px"
+      assert first_wall_sprite.height == "50px"
+      assert first_wall_sprite.x == "100"
+      assert first_wall_sprite.y == "150"
+      assert first_wall_sprite.viewbox == "0 0 512 512"
 
 
       # # export html to doc

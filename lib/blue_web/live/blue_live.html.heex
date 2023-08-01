@@ -8,7 +8,7 @@
             <input type="text" value={@state.filename} />
         </form>
         <button phx-click="export">Export to JSON</button>
-        <button phx-click="designer_mode">Designer mode: <%= @state.designer_mode.on %></button>
+        <button id="designer-mode-button" phx-click="designer_mode">Designer mode: <%= @state.designer_mode.on %></button>
         <%= if @state.designer_mode.on do  %>
             <.live_component module={DesignerModeComponent} id="designer_mode" state={@state} />
         <% end %>

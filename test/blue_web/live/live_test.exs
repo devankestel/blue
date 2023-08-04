@@ -31,6 +31,13 @@ defmodule BlueWeb.BlueLiveTest do
     }
   end
 
+  defp wall_sprite_assertions(wall_sprite) do
+    assert wall_sprite.id == "wall_sprite"
+    assert wall_sprite.width == "50px"
+    assert wall_sprite.height == "50px"
+    assert wall_sprite.viewbox == "0 0 512 512" 
+  end
+
   describe "basic rendering" do
     test "renders our game page", %{conn: conn} do
       {:ok, view, html} = live(conn, "/blue")
@@ -98,7 +105,7 @@ defmodule BlueWeb.BlueLiveTest do
 
 
         # @TODO:
-        # Fix the git security stuff
+        # Fix the git security stuff [X]
         # find count of each sprite on svg
         # assert other props like location
         # and maybe assert size?
@@ -126,15 +133,20 @@ defmodule BlueWeb.BlueLiveTest do
         IO.inspect(parsed_wall_sprites)
 
         first_wall_sprite = Enum.at(parsed_wall_sprites, 0)
+        second_wall_sprite = Enum.at(parsed_wall_sprites, 1)
+        third_wall_sprite = Enum.at(parsed_wall_sprites, 2)
 
       assert wall_sprites_count == 3
-      assert first_wall_sprite.id == "wall_sprite"
-      assert first_wall_sprite.width == "50px"
-      assert first_wall_sprite.height == "50px"
       assert first_wall_sprite.x == "100"
       assert first_wall_sprite.y == "150"
-      assert first_wall_sprite.viewbox == "0 0 512 512"
+      assert second_wall_sprite.x == "100"
+      assert second_wall_sprite.y == "200"
+      assert third_wall_sprite.x == "100"
+      assert third_wall_sprite.y == "250"
+      
 
+      parsed_wall_sprites
+        |> Enum.each(& wall_sprite_assertions(&1))
 
       # # export html to doc
       # File.write("lib/blue/rendered_html_test.html", html)
